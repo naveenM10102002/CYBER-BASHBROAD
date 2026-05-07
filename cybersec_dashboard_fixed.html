@@ -1,0 +1,3384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberShield — 2-Month Learning Path</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #040810;
+      --s1: #0b1623;
+      --s2: #0f1d2e;
+      --s3: #13243a;
+      --b1: #1a3048;
+      --b2: #1f3d5c;
+      --g: #00ffc8;
+      --g2: #00d4a8;
+      --g3: #00a882;
+      --b: #0af;
+      --b2c: #0080cc;
+      --r: #ff3060;
+      --y: #ffd600;
+      --p: #b060ff;
+      --o: #ff7c20;
+      --txt: #c0dff0;
+      --muted: #4a7090;
+      --dim: #2a4a65;
+      --mono: 'Share Tech Mono', monospace;
+      --orb: 'Orbitron', sans-serif;
+      --main: 'Exo 2', sans-serif;
+      --glow: 0 0 20px rgba(0, 255, 200, .25);
+      --glow2: 0 0 40px rgba(0, 255, 200, .15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--txt);
+      font-family: var(--main);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── BOOT SCREEN ── */
+    #boot {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      color: var(--g);
+    }
+
+    #boot-logo {
+      font-family: var(--orb);
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 900;
+      letter-spacing: .3em;
+      text-shadow: 0 0 30px var(--g), 0 0 60px var(--g2);
+      animation: pulse 1s ease-in-out infinite alternate;
+    }
+
+    #boot-sub {
+      margin-top: 8px;
+      font-size: .8rem;
+      letter-spacing: .3em;
+      color: var(--muted);
+    }
+
+    #boot-log {
+      margin-top: 32px;
+      width: min(500px, 90vw);
+      font-size: .75rem;
+      line-height: 1.8;
+      color: #4a9;
+      text-align: left;
+    }
+
+    #boot-bar {
+      margin-top: 20px;
+      width: min(400px, 80vw);
+      height: 3px;
+      background: #0a2020;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    #boot-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--g2), var(--g));
+      width: 0%;
+      transition: width .4s ease;
+      border-radius: 2px;
+      box-shadow: 0 0 10px var(--g);
+    }
+
+    @keyframes pulse {
+      from {
+        text-shadow: 0 0 20px var(--g);
+      }
+
+      to {
+        text-shadow: 0 0 60px var(--g), 0 0 100px var(--g2), 0 0 140px #00ffaa22;
+      }
+    }
+
+    /* ── PARTICLE CANVAS ── */
+    #particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: .6;
+    }
+
+    /* ── SCAN LINE ── */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--g), transparent);
+      z-index: 1000;
+      pointer-events: none;
+      animation: scanline 8s linear infinite;
+      opacity: .4;
+    }
+
+    @keyframes scanline {
+      0% {
+        top: -2px;
+      }
+
+      100% {
+        top: 100vh;
+      }
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 500;
+      background: rgba(4, 8, 16, .92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--b1);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-family: var(--orb);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--g);
+      letter-spacing: .15em;
+      text-shadow: 0 0 15px var(--g2);
+      flex-shrink: 0;
+    }
+
+    .logo em {
+      color: var(--txt);
+      font-style: normal;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 5px;
+      flex: 1;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      padding: 5px 12px;
+      border-radius: 5px;
+      border: 1px solid var(--b1);
+      background: transparent;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: .65rem;
+      cursor: pointer;
+      transition: all .2s;
+      letter-spacing: .1em;
+    }
+
+    .nav-link:hover {
+      border-color: var(--g);
+      color: var(--g);
+      background: rgba(0, 255, 200, .05);
+      box-shadow: 0 0 10px rgba(0, 255, 200, .1);
+    }
+
+    .xp-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .xp-ring-wrap {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+    }
+
+    .xp-ring-wrap svg {
+      position: absolute;
+      inset: 0;
+      transform: rotate(-90deg);
+    }
+
+    .xp-ring-bg {
+      fill: none;
+      stroke: var(--b1);
+      stroke-width: 3;
+    }
+
+    .xp-ring-fill {
+      fill: none;
+      stroke: var(--g);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-dasharray: 113;
+      stroke-dashoffset: 113;
+      transition: stroke-dashoffset 1s ease;
+      filter: drop-shadow(0 0 4px var(--g));
+    }
+
+    .xp-ring-num {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: .55rem;
+      color: var(--g);
+    }
+
+    .level-badge {
+      background: linear-gradient(135deg, var(--g3), var(--b2c));
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-family: var(--orb);
+      font-size: .6rem;
+      font-weight: 700;
+      color: #000;
+      letter-spacing: .1em;
+    }
+
+    .streak-pill {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--s2);
+      border: 1px solid var(--b1);
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-family: var(--mono);
+      font-size: .65rem;
+      color: var(--y);
+    }
+
+    .streak-fire {
+      animation: fireFlicker .5s ease-in-out infinite alternate;
+    }
+
+    @keyframes fireFlicker {
+      from {
+        transform: scale(1);
+      }
+
+      to {
+        transform: scale(1.2)rotate(5deg);
+      }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      padding: 60px 24px 32px;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .hero-title {
+      font-family: var(--orb);
+      font-size: clamp(1.6rem, 5vw, 3.4rem);
+      font-weight: 900;
+      letter-spacing: .05em;
+      line-height: 1.1;
+      text-shadow: 0 0 40px rgba(0, 255, 200, .3);
+    }
+
+    .hero-title .accent {
+      color: var(--g);
+      text-shadow: 0 0 30px var(--g), 0 0 60px var(--g2);
+    }
+
+    .hero-sub {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: .9rem;
+      letter-spacing: .05em;
+    }
+
+    .hero-counters {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+
+    .counter-box {
+      background: var(--s1);
+      border: 1px solid var(--b1);
+      border-radius: 12px;
+      padding: 14px 20px;
+      text-align: center;
+      min-width: 80px;
+      position: relative;
+      overflow: hidden;
+      transition: all .3s;
+    }
+
+    .counter-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 255, 200, .04), transparent);
+      pointer-events: none;
+    }
+
+    .counter-box:hover {
+      border-color: var(--g);
+      box-shadow: var(--glow);
+    }
+
+    .counter-num {
+      font-family: var(--orb);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--g);
+      display: block;
+      text-shadow: 0 0 15px var(--g2);
+    }
+
+    .counter-lbl {
+      font-size: .58rem;
+      color: var(--muted);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .sec-title {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--mono);
+      font-size: .68rem;
+      color: var(--muted);
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      margin-top: 40px;
+    }
+
+    .sec-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--b1), transparent);
+    }
+
+    .sec-title .sec-icon {
+      color: var(--g);
+      font-size: .85rem;
+    }
+
+    /* ── QUICK ACTIONS ── */
+    .actions-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .act-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--b1);
+      background: var(--s1);
+      color: var(--txt);
+      font-family: var(--mono);
+      font-size: .72rem;
+      cursor: pointer;
+      transition: all .25s;
+      letter-spacing: .08em;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .act-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 255, 200, .06), transparent);
+      opacity: 0;
+      transition: opacity .2s;
+    }
+
+    .act-btn:hover::before {
+      opacity: 1;
+    }
+
+    .act-btn:hover {
+      border-color: var(--g2);
+      color: var(--g);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(0, 255, 200, .12);
+    }
+
+    .act-btn:active {
+      transform: translateY(0) scale(.97);
+    }
+
+    .act-btn .ai {
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .act-btn.ext {
+      border-color: var(--b2);
+      color: var(--b);
+    }
+
+    .act-btn.ext:hover {
+      border-color: var(--b);
+      color: #6cf;
+      box-shadow: 0 4px 20px rgba(0, 170, 255, .12);
+    }
+
+    /* ── STATS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: var(--s1);
+      border: 1px solid var(--b1);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      transition: all .3s;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--g), transparent);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .stat-card:hover::after {
+      opacity: 1;
+    }
+
+    .stat-card:hover {
+      border-color: var(--g);
+      box-shadow: var(--glow);
+      transform: translateY(-2px);
+    }
+
+    .stat-num {
+      font-family: var(--orb);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--g);
+      display: block;
+      text-shadow: 0 0 12px var(--g2);
+    }
+
+    .stat-lbl {
+      font-size: .62rem;
+      color: var(--muted);
+      letter-spacing: .12em;
+      margin-top: 3px;
+    }
+
+    /* ── ACHIEVEMENT BADGES ── */
+    .achievements-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .badge-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--s1);
+      border: 1px solid var(--b1);
+      border-radius: 30px;
+      padding: 6px 14px 6px 8px;
+      font-family: var(--mono);
+      font-size: .65rem;
+      transition: all .3s;
+    }
+
+    .badge-item.unlocked {
+      border-color: var(--y);
+      background: rgba(255, 214, 0, .05);
+      color: var(--y);
+      box-shadow: 0 0 12px rgba(255, 214, 0, .15);
+    }
+
+    .badge-item.locked {
+      opacity: .35;
+      filter: grayscale(1);
+    }
+
+    .badge-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+    }
+
+    .badge-item.unlocked .badge-icon {
+      background: rgba(255, 214, 0, .15);
+      animation: badgePulse 3s ease-in-out infinite;
+    }
+
+    @keyframes badgePulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 214, 0, .3);
+      }
+
+      50% {
+        box-shadow: 0 0 0 6px rgba(255, 214, 0, 0);
+      }
+    }
+
+    /* ── TOPIC PANEL ── */
+    #topic-panel {
+      display: none;
+      background: var(--s1);
+      border: 1px solid var(--b1);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      position: relative;
+      animation: panelIn .3s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    @keyframes panelIn {
+      from {
+        opacity: 0;
+        transform: translateY(-16px) scale(.98);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    #topic-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(0, 255, 200, .04), transparent);
+      pointer-events: none;
+    }
+
+    .panel-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .panel-title {
+      font-family: var(--orb);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--g);
+      text-shadow: 0 0 15px var(--g2);
+    }
+
+    .panel-sub {
+      font-size: .8rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .close-panel {
+      background: var(--s2);
+      border: 1px solid var(--b1);
+      color: var(--muted);
+      border-radius: 6px;
+      padding: 5px 12px;
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: .65rem;
+      transition: all .15s;
+      flex-shrink: 0;
+    }
+
+    .close-panel:hover {
+      color: var(--r);
+      border-color: var(--r);
+      box-shadow: 0 0 10px rgba(255, 48, 96, .15);
+    }
+
+    .topic-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .topic-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--s2);
+      border: 1px solid var(--b1);
+      border-radius: 10px;
+      padding: 11px 14px;
+      transition: all .2s;
+    }
+
+    .topic-item:hover {
+      border-color: var(--b2);
+      background: rgba(0, 170, 255, .04);
+    }
+
+    .topic-icon {
+      font-size: 1.1rem;
+      width: 24px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .topic-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .topic-name {
+      font-size: .85rem;
+      font-weight: 600;
+    }
+
+    .topic-url {
+      font-size: .63rem;
+      color: var(--b);
+      font-family: var(--mono);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tbtn {
+      font-family: var(--mono);
+      font-size: .65rem;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--b1);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .15s;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .tbtn:hover {
+      border-color: var(--g);
+      color: var(--g);
+    }
+
+    .tbtn.done {
+      border-color: var(--g);
+      color: var(--g);
+      background: rgba(0, 255, 200, .08);
+      box-shadow: 0 0 8px rgba(0, 255, 200, .1);
+    }
+
+    /* ── WEEK CARDS ── */
+    .tab-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      padding: 8px 20px;
+      border-radius: 8px;
+      border: 1px solid var(--b1);
+      background: var(--s1);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: .72rem;
+      cursor: pointer;
+      transition: all .2s;
+      letter-spacing: .08em;
+    }
+
+    .tab.active {
+      background: var(--g);
+      color: #000;
+      border-color: var(--g);
+      font-weight: 700;
+      box-shadow: 0 0 20px rgba(0, 255, 200, .3);
+    }
+
+    .tab:not(.active):hover {
+      border-color: var(--g2);
+      color: var(--g2);
+    }
+
+    .weeks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .week-card {
+      background: var(--s1);
+      border: 1px solid var(--b1);
+      border-radius: 14px;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+      transition: all .3s;
+      cursor: pointer;
+    }
+
+    .week-card::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--g), transparent);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .week-card:hover::before {
+      opacity: 1;
+    }
+
+    .week-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--g);
+      box-shadow: 0 8px 40px rgba(0, 255, 200, .12);
+    }
+
+    .week-card.completed::before {
+      opacity: 1;
+      background: linear-gradient(90deg, transparent, var(--g2), var(--g), var(--g2), transparent);
+    }
+
+    .week-card.completed {
+      border-color: rgba(0, 255, 200, .3);
+    }
+
+    .week-card.active-card {
+      border-color: var(--g);
+      box-shadow: var(--glow);
+    }
+
+    .card-bg {
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 255, 200, .06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .week-num {
+      font-family: var(--mono);
+      font-size: .58rem;
+      color: var(--muted);
+      letter-spacing: .2em;
+      margin-bottom: 5px;
+    }
+
+    .week-title {
+      font-size: .92rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      font-family: var(--orb);
+    }
+
+    .week-desc {
+      font-size: .76rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .week-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 12px;
+    }
+
+    .week-prog {
+      font-family: var(--mono);
+      font-size: .65rem;
+      color: var(--g);
+    }
+
+    .chip {
+      font-size: .57rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-family: var(--mono);
+      letter-spacing: .08em;
+    }
+
+    .chip-new {
+      background: rgba(0, 255, 200, .12);
+      color: var(--g);
+      border: 1px solid rgba(0, 255, 200, .25);
+    }
+
+    .chip-done {
+      background: rgba(0, 255, 200, .08);
+      color: var(--g);
+    }
+
+    .chip-wip {
+      background: rgba(0, 170, 255, .12);
+      color: var(--b);
+      border: 1px solid rgba(0, 170, 255, .25);
+    }
+
+    .wbar-wrap {
+      width: 100%;
+      height: 3px;
+      background: var(--b1);
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .wbar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--g2), var(--g));
+      border-radius: 2px;
+      transition: width 1s ease;
+      box-shadow: 0 0 6px var(--g2);
+    }
+
+    /* ── HUB ── */
+    .hub-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 16px;
+    }
+
+    .hf {
+      padding: 5px 13px;
+      border-radius: 20px;
+      border: 1px solid var(--b1);
+      background: var(--s1);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: .65rem;
+      cursor: pointer;
+      letter-spacing: .08em;
+      transition: all .15s;
+    }
+
+    .hf.active,
+    .hf:hover {
+      border-color: var(--b);
+      color: var(--b);
+      background: rgba(0, 170, 255, .08);
+    }
+
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+      gap: 11px;
+    }
+
+    .hub-card {
+      background: var(--s1);
+      border: 1px solid var(--b1);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      transition: all .25s;
+    }
+
+    .hub-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .5);
+    }
+
+    .hub-card[data-cat="platform"]:hover {
+      border-color: var(--g);
+    }
+
+    .hub-card[data-cat="youtube"]:hover {
+      border-color: #f55;
+    }
+
+    .hub-card[data-cat="tool"]:hover {
+      border-color: var(--b);
+    }
+
+    .hub-card[data-cat="download"]:hover {
+      border-color: var(--y);
+    }
+
+    .hub-card[data-cat="reference"]:hover {
+      border-color: var(--p);
+    }
+
+    .hub-card[data-cat="practice"]:hover {
+      border-color: var(--o);
+    }
+
+    .hub-card.hidden {
+      display: none;
+    }
+
+    .hub-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .hub-icon {
+      font-size: 1.3rem;
+    }
+
+    .hub-pill {
+      font-family: var(--mono);
+      font-size: .56rem;
+      letter-spacing: .15em;
+      padding: 2px 8px;
+      border-radius: 20px;
+      width: fit-content;
+    }
+
+    .hp-platform {
+      background: rgba(0, 255, 200, .1);
+      color: var(--g);
+      border: 1px solid rgba(0, 255, 200, .2);
+    }
+
+    .hp-youtube {
+      background: rgba(255, 85, 85, .1);
+      color: #f88;
+      border: 1px solid rgba(255, 85, 85, .2);
+    }
+
+    .hp-tool {
+      background: rgba(0, 170, 255, .1);
+      color: var(--b);
+      border: 1px solid rgba(0, 170, 255, .2);
+    }
+
+    .hp-download {
+      background: rgba(255, 214, 0, .1);
+      color: var(--y);
+      border: 1px solid rgba(255, 214, 0, .2);
+    }
+
+    .hp-reference {
+      background: rgba(176, 96, 255, .1);
+      color: var(--p);
+      border: 1px solid rgba(176, 96, 255, .2);
+    }
+
+    .hp-practice {
+      background: rgba(255, 124, 32, .1);
+      color: var(--o);
+      border: 1px solid rgba(255, 124, 32, .2);
+    }
+
+    .hub-name {
+      font-size: .85rem;
+      font-weight: 700;
+    }
+
+    .hub-desc {
+      font-size: .7rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .hub-domain {
+      font-family: var(--mono);
+      font-size: .6rem;
+      color: var(--dim);
+    }
+
+    .hub-btns {
+      display: flex;
+      gap: 6px;
+      margin-top: 3px;
+    }
+
+    .hbtn {
+      flex: 1;
+      padding: 6px 0;
+      border-radius: 6px;
+      border: 1px solid var(--b1);
+      background: var(--s2);
+      color: var(--txt);
+      font-family: var(--mono);
+      font-size: .65rem;
+      cursor: pointer;
+      transition: all .15s;
+      text-align: center;
+      text-decoration: none;
+      display: block;
+    }
+
+    .hbtn:hover {
+      border-color: var(--g);
+      color: var(--g);
+    }
+
+    .hfav {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--b1);
+      background: var(--s2);
+      color: var(--muted);
+      font-size: .8rem;
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    .hfav.faved {
+      color: var(--y);
+      border-color: rgba(255, 214, 0, .35);
+      background: rgba(255, 214, 0, .05);
+    }
+
+    /* ── RESOURCES ── */
+    .res-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 11px;
+    }
+
+    .res-card {
+      background: var(--s1);
+      border: 1px solid var(--b1);
+      border-radius: 11px;
+      padding: 14px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      transition: all .2s;
+    }
+
+    .res-card:hover {
+      border-color: var(--b);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, .4);
+    }
+
+    .res-type {
+      font-family: var(--mono);
+      font-size: .58rem;
+      color: var(--b);
+      letter-spacing: .18em;
+    }
+
+    .res-name {
+      font-size: .86rem;
+      font-weight: 600;
+    }
+
+    .res-url {
+      font-family: var(--mono);
+      font-size: .6rem;
+      color: var(--muted);
+    }
+
+    /* ── MODAL ── */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 800;
+      background: rgba(0, 0, 0, .85);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--s1);
+      border: 1px solid var(--b1);
+      border-radius: 18px;
+      padding: 28px;
+      max-width: 520px;
+      width: 92%;
+      animation: modalPop .3s cubic-bezier(.34, 1.56, .64, 1);
+      max-height: 88vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .modal::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(0, 255, 200, .04), transparent);
+      pointer-events: none;
+    }
+
+    @keyframes modalPop {
+      from {
+        opacity: 0;
+        transform: scale(.9) translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .modal h2 {
+      font-family: var(--orb);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--g);
+    }
+
+    .modal-body {
+      color: var(--txt);
+      font-size: .84rem;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .modal-btns {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .mbtn {
+      padding: 9px 18px;
+      border-radius: 8px;
+      border: none;
+      font-family: var(--mono);
+      font-size: .72rem;
+      cursor: pointer;
+      transition: all .15s;
+      letter-spacing: .08em;
+    }
+
+    .mbtn-primary {
+      background: var(--g);
+      color: #000;
+      font-weight: 700;
+    }
+
+    .mbtn-primary:hover {
+      background: var(--g2);
+      box-shadow: 0 0 20px rgba(0, 255, 200, .35);
+    }
+
+    .mbtn-sec {
+      background: var(--s2);
+      color: var(--txt);
+      border: 1px solid var(--b1);
+    }
+
+    .mbtn-sec:hover {
+      border-color: var(--g);
+      color: var(--g);
+    }
+
+    .mbtn-danger {
+      background: rgba(255, 48, 96, .1);
+      color: var(--r);
+      border: 1px solid rgba(255, 48, 96, .25);
+    }
+
+    .mbtn-danger:hover {
+      background: rgba(255, 48, 96, .2);
+      box-shadow: 0 0 12px rgba(255, 48, 96, .15);
+    }
+
+    /* ── QUIZ ── */
+    .qopt {
+      width: 100%;
+      background: var(--s2);
+      border: 1px solid var(--b1);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--txt);
+      font-family: var(--main);
+      font-size: .82rem;
+      cursor: pointer;
+      text-align: left;
+      margin-bottom: 7px;
+      transition: all .15s;
+      display: block;
+    }
+
+    .qopt:hover:not(:disabled) {
+      border-color: var(--b);
+      background: rgba(0, 170, 255, .06);
+    }
+
+    .qopt.correct {
+      border-color: var(--g) !important;
+      background: rgba(0, 255, 200, .1) !important;
+      color: var(--g) !important;
+    }
+
+    .qopt.wrong {
+      border-color: var(--r) !important;
+      background: rgba(255, 48, 96, .1) !important;
+      color: var(--r) !important;
+    }
+
+    /* ── NOTES ── */
+    #notes-area {
+      width: 100%;
+      height: 160px;
+      background: var(--s2);
+      border: 1px solid var(--b1);
+      border-radius: 8px;
+      color: var(--txt);
+      font-family: var(--mono);
+      font-size: .78rem;
+      padding: 12px;
+      resize: vertical;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    #notes-area:focus {
+      border-color: var(--g);
+      box-shadow: 0 0 10px rgba(0, 255, 200, .1);
+    }
+
+    /* ── TIMER ── */
+    #timer-display {
+      font-family: var(--orb);
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: var(--g);
+      text-align: center;
+      padding: 18px 0 6px;
+      text-shadow: 0 0 30px var(--g2);
+    }
+
+    #timer-status {
+      font-size: .7rem;
+      color: var(--muted);
+      text-align: center;
+      font-family: var(--mono);
+      letter-spacing: .2em;
+      margin-bottom: 16px;
+    }
+
+    /* ── TERMINAL ── */
+    .terminal {
+      background: #000;
+      border: 1px solid var(--g3);
+      border-radius: 10px;
+      padding: 16px;
+      font-family: var(--mono);
+      font-size: .75rem;
+      line-height: 1.8;
+      max-height: 240px;
+      overflow-y: auto;
+      margin-bottom: 14px;
+    }
+
+    .t-line {
+      color: #4af;
+    }
+
+    .t-line .t-g {
+      color: var(--g);
+    }
+
+    .t-line .t-y {
+      color: var(--y);
+    }
+
+    .t-line .t-r {
+      color: var(--r);
+    }
+
+    .t-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 14px;
+      background: var(--g);
+      animation: blink .8s step-end infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    /* ── GLOSSARY ── */
+    .glos-item {
+      background: var(--s2);
+      border: 1px solid var(--b1);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      transition: border-color .2s;
+    }
+
+    .glos-item:hover {
+      border-color: var(--g);
+    }
+
+    .glos-term {
+      font-family: var(--mono);
+      font-size: .72rem;
+      color: var(--g);
+      margin-bottom: 3px;
+    }
+
+    .glos-def {
+      font-size: .8rem;
+      line-height: 1.5;
+    }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1000;
+      background: var(--s1);
+      border: 1px solid var(--g);
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-family: var(--mono);
+      font-size: .75rem;
+      color: var(--g);
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all .35s cubic-bezier(.34, 1.56, .64, 1);
+      pointer-events: none;
+      max-width: 290px;
+      box-shadow: 0 0 30px rgba(0, 255, 200, .2);
+    }
+
+    #toast.show {
+      transform: none;
+      opacity: 1;
+    }
+
+    /* ── LEVEL UP ── */
+    #levelup {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity .5s;
+    }
+
+    #levelup.show {
+      opacity: 1;
+    }
+
+    .lu-box {
+      font-family: var(--orb);
+      font-size: clamp(2rem, 8vw, 5rem);
+      font-weight: 900;
+      color: var(--g);
+      text-shadow: 0 0 40px var(--g), 0 0 80px var(--g2);
+      animation: luBounce .5s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    @keyframes luBounce {
+      from {
+        transform: scale(0) rotate(-10deg);
+      }
+
+      to {
+        transform: scale(1) rotate(0);
+      }
+    }
+
+    /* ── SKILL TREE ── */
+    .skill-tree {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .skill-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 120px;
+    }
+
+    .skill-node {
+      background: var(--s1);
+      border: 1px solid var(--b1);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      font-size: .7rem;
+      font-family: var(--mono);
+      transition: all .3s;
+      position: relative;
+    }
+
+    .skill-node.unlocked {
+      border-color: var(--g);
+      color: var(--g);
+      box-shadow: 0 0 12px rgba(0, 255, 200, .15);
+    }
+
+    .skill-node.locked {
+      opacity: .4;
+      filter: grayscale(1);
+    }
+
+    .skill-node.active {
+      border-color: var(--y);
+      color: var(--y);
+      background: rgba(255, 214, 0, .05);
+      box-shadow: 0 0 16px rgba(255, 214, 0, .2);
+    }
+
+    .skill-icon {
+      font-size: 1.4rem;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .skill-col-lbl {
+      font-family: var(--mono);
+      font-size: .58rem;
+      color: var(--muted);
+      text-align: center;
+      letter-spacing: .15em;
+      margin-bottom: 2px;
+    }
+
+    /* ── AI MENTOR ── */
+    .ai-chat {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-height: 340px;
+    }
+
+    .ai-messages {
+      flex: 1;
+      overflow-y: auto;
+      max-height: 260px;
+      padding: 4px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .ai-msg {
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: .8rem;
+      line-height: 1.6;
+      max-width: 95%;
+    }
+
+    .ai-msg.user {
+      background: rgba(0, 170, 255, .1);
+      border: 1px solid rgba(0, 170, 255, .2);
+      color: var(--b);
+      align-self: flex-end;
+    }
+
+    .ai-msg.bot {
+      background: rgba(176, 96, 255, .07);
+      border: 1px solid rgba(176, 96, 255, .18);
+      color: var(--txt);
+      align-self: flex-start;
+    }
+
+    .ai-msg.typing {
+      color: var(--p);
+      font-style: italic;
+      font-size: .75rem;
+    }
+
+    .ai-input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    #aiInput {
+      flex: 1;
+      font-family: var(--mono);
+      font-size: .75rem;
+      background: var(--s2);
+      border: 1px solid var(--b1);
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: var(--g);
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    #aiInput:focus {
+      border-color: var(--p);
+      box-shadow: 0 0 10px rgba(176, 96, 255, .1);
+    }
+
+    #aiSend {
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: none;
+      background: linear-gradient(135deg, var(--p), #8040cc);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: .72rem;
+      cursor: pointer;
+      transition: all .15s;
+      flex-shrink: 0;
+    }
+
+    #aiSend:hover {
+      box-shadow: 0 0 16px rgba(176, 96, 255, .4);
+    }
+
+    #aiSend:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .ai-suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .ai-sug {
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid rgba(176, 96, 255, .25);
+      background: rgba(176, 96, 255, .06);
+      color: var(--p);
+      font-family: var(--mono);
+      font-size: .6rem;
+      cursor: pointer;
+      transition: all .15s;
+      letter-spacing: .05em;
+    }
+
+    .ai-sug:hover {
+      background: rgba(176, 96, 255, .14);
+      border-color: var(--p);
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--b1);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--b2);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:600px) {
+      .hero-title {
+        font-size: 1.8rem;
+      }
+
+      .counter-num {
+        font-size: 1.4rem;
+      }
+
+      .week-card {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- BOOT SCREEN -->
+  <div id="boot">
+    <div id="boot-logo">CYBERSHIELD</div>
+    <div id="boot-sub">ADVANCED LEARNING SYSTEM v2.0</div>
+    <div id="boot-log">
+      <div>[ OK ] Initializing threat database...</div>
+      <div>[ OK ] Loading learning modules...</div>
+      <div>[ OK ] Syncing progress state...</div>
+      <div id="boot-line4"></div>
+      <div id="boot-line5"></div>
+    </div>
+    <div id="boot-bar">
+      <div id="boot-fill"></div>
+    </div>
+  </div>
+
+  <!-- PARTICLES -->
+  <canvas id="particles"></canvas>
+
+  <!-- LEVEL UP OVERLAY -->
+  <div id="levelup">
+    <div class="lu-box">LEVEL UP! 🎯</div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">CYBER<em>SHIELD</em></div>
+    <div class="nav-links">
+      <button class="nav-link" onclick="jumpTo('sec-actions')">⚡ Actions</button>
+      <button class="nav-link" onclick="jumpTo('sec-path')">📅 Path</button>
+      <button class="nav-link" onclick="jumpTo('sec-links')">🔗 Links</button>
+      <button class="nav-link" onclick="jumpTo('sec-tree')">🌳 Skill Tree</button>
+      <button class="nav-link" onclick="jumpTo('sec-ach')">🏆 Achievements</button>
+      <button class="nav-link" onclick="jumpTo('sec-res')">📚 Resources</button>
+    </div>
+    <div class="xp-section">
+      <div class="xp-ring-wrap">
+        <svg viewBox="0 0 44 44">
+          <circle class="xp-ring-bg" cx="22" cy="22" r="18" />
+          <circle class="xp-ring-fill" id="xpRing" cx="22" cy="22" r="18" />
+        </svg>
+        <div class="xp-ring-num" id="xpNum">0</div>
+      </div>
+      <div class="level-badge" id="lvlBadge">LVL 1</div>
+      <div class="streak-pill"><span class="streak-fire">🔥</span><span id="streakNum">0</span>d</div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1 class="hero-title">Master <span class="accent">Cyber Security</span><br>in 2 Months</h1>
+    <p class="hero-sub">Structured weekly path · 40+ redirect links · Skill tree · Achievement system</p>
+    <div class="hero-counters">
+      <div class="counter-box"><span class="counter-num" id="tDays">60</span><span class="counter-lbl">Days Left</span>
+      </div>
+      <div class="counter-box"><span class="counter-num" id="tWeeks">8</span><span class="counter-lbl">Weeks</span>
+      </div>
+      <div class="counter-box"><span class="counter-num" id="tTopics">0</span><span class="counter-lbl">Done</span>
+      </div>
+      <div class="counter-box"><span class="counter-num" id="tPct">0%</span><span class="counter-lbl">Complete</span>
+      </div>
+      <div class="counter-box"><span class="counter-num" id="tXp">0</span><span class="counter-lbl">XP</span></div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- QUICK ACTIONS -->
+    <div class="sec-title" id="sec-actions"><span class="sec-icon">⚡</span> Quick Actions</div>
+    <div class="actions-grid">
+      <button class="act-btn" id="btnQuiz"><span class="ai">🧠</span> Knowledge Check</button>
+      <button class="act-btn" id="btnNotes"><span class="ai">📝</span> My Notes</button>
+      <button class="act-btn" id="btnCheat"><span class="ai">📋</span> Cheat Sheet</button>
+      <button class="act-btn" id="btnTimer"><span class="ai">⏱️</span> Study Timer</button>
+      <button class="act-btn" id="btnGloss"><span class="ai">📖</span> Glossary</button>
+      <button class="act-btn" id="btnTerminal"><span class="ai">💻</span> Terminal</button>
+      <button class="act-btn" id="btnReset"><span class="ai">🔄</span> Reset</button>
+      <button class="act-btn" id="btnAI" style="border-color:rgba(176,96,255,.4);color:var(--p);"><span
+          class="ai">🤖</span> AI Mentor</button>
+      <a class="act-btn ext" href="https://tryhackme.com" target="_blank" rel="noopener"><span class="ai">🛡️</span>
+        TryHackMe ↗</a>
+      <a class="act-btn ext" href="https://hackthebox.com" target="_blank" rel="noopener"><span class="ai">📦</span>
+        HackTheBox ↗</a>
+      <a class="act-btn ext" href="https://portswigger.net/web-security/all-labs" target="_blank" rel="noopener"><span
+          class="ai">🧪</span> PortSwigger ↗</a>
+      <a class="act-btn ext" href="https://picoctf.org" target="_blank" rel="noopener"><span class="ai">🏆</span>
+        PicoCTF ↗</a>
+      <a class="act-btn ext" href="https://attack.mitre.org" target="_blank" rel="noopener"><span class="ai">🗺️</span>
+        MITRE ATT&CK ↗</a>
+    </div>
+
+    <!-- STATS -->
+    <div class="sec-title"><span class="sec-icon">📊</span> Progress Overview</div>
+    <div class="stats-grid">
+      <div class="stat-card"><span class="stat-num" id="stTopics">0</span>
+        <div class="stat-lbl">Topics Done</div>
+      </div>
+      <div class="stat-card"><span class="stat-num" id="stXp">0</span>
+        <div class="stat-lbl">XP Earned</div>
+      </div>
+      <div class="stat-card"><span class="stat-num" id="stWeeks">0</span>
+        <div class="stat-lbl">Weeks Done</div>
+      </div>
+      <div class="stat-card"><span class="stat-num" id="stPct">0%</span>
+        <div class="stat-lbl">Completion</div>
+      </div>
+      <div class="stat-card"><span class="stat-num" id="stStreak">0</span>
+        <div class="stat-lbl">Day Streak</div>
+      </div>
+      <div class="stat-card"><span class="stat-num" id="stLevel">1</span>
+        <div class="stat-lbl">Level</div>
+      </div>
+    </div>
+
+    <!-- TOPIC PANEL -->
+    <div id="topic-panel">
+      <div class="panel-hdr">
+        <div>
+          <div class="panel-title" id="panelTitle"></div>
+          <div class="panel-sub" id="panelSub"></div>
+        </div>
+        <button class="close-panel" id="btnClosePanel">✕ CLOSE</button>
+      </div>
+      <div class="topic-list" id="topicList"></div>
+    </div>
+
+    <!-- LEARNING PATH -->
+    <div class="sec-title" id="sec-path"><span class="sec-icon">📅</span> Learning Path</div>
+    <div class="tab-row">
+      <button class="tab active" id="tab1">MONTH 1 — Foundations</button>
+      <button class="tab" id="tab2">MONTH 2 — Advanced</button>
+    </div>
+    <div class="weeks-grid" id="weeksGrid"></div>
+
+    <!-- SKILL TREE -->
+    <div class="sec-title" id="sec-tree"><span class="sec-icon">🌳</span> Skill Tree</div>
+    <div class="skill-tree" id="skillTree"></div>
+
+    <!-- ACHIEVEMENTS -->
+    <div class="sec-title" id="sec-ach"><span class="sec-icon">🏆</span> Achievements</div>
+    <div class="achievements-row" id="achRow"></div>
+
+    <!-- LINKS HUB -->
+    <div class="sec-title" id="sec-links"><span class="sec-icon">🔗</span> System Links Hub</div>
+    <div class="hub-filters" id="hubFilters">
+      <button class="hf active" data-cat="all">ALL</button>
+      <button class="hf" data-cat="platform">🛡️ PLATFORMS</button>
+      <button class="hf" data-cat="youtube">▶ YOUTUBE</button>
+      <button class="hf" data-cat="tool">🔧 TOOLS</button>
+      <button class="hf" data-cat="download">⬇ DOWNLOADS</button>
+      <button class="hf" data-cat="reference">📖 REFERENCES</button>
+      <button class="hf" data-cat="practice">🎯 PRACTICE</button>
+      <button class="hf" data-cat="fav">⭐ FAVOURITES</button>
+    </div>
+    <div class="hub-grid" id="hubGrid"></div>
+
+    <!-- RESOURCES -->
+    <div class="sec-title" id="sec-res"><span class="sec-icon">📚</span> Free Resources</div>
+    <div class="res-grid" id="resGrid"></div>
+
+  </main>
+
+  <!-- MODAL -->
+  <div class="overlay" id="overlay">
+    <div class="modal">
+      <h2 id="mTitle"></h2>
+      <div class="modal-body" id="mBody"></div>
+      <div class="modal-btns" id="mBtns"></div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    // ═══════════════════════════════════════════════════
+    // DATA
+    // ═══════════════════════════════════════════════════
+    var WEEKS = [
+      {
+        week: 1, title: "Networking Fundamentals", desc: "TCP/IP, DNS, HTTP, OSI model — the internet backbone.", topics: [
+          { name: "OSI Model (7 Layers)", icon: "🗂️", url: "https://www.cloudflare.com/learning/ddos/glossary/open-systems-interconnection-model-osi/" },
+          { name: "TCP/IP & Subnetting", icon: "🌐", url: "https://www.cisco.com/c/en/us/support/docs/ip/routing-information-protocol-rip/13788-3.html" },
+          { name: "DNS Deep Dive", icon: "🔍", url: "https://www.cloudflare.com/learning/dns/what-is-dns/" },
+          { name: "Wireshark Basics", icon: "🦈", url: "https://www.wireshark.org/docs/wsug_html_chunked/ChapterIntroduction.html" }
+        ]
+      },
+      {
+        week: 2, title: "Linux & Command Line", desc: "Master the OS of hackers: files, permissions, bash.", topics: [
+          { name: "Linux File System", icon: "🐧", url: "https://linuxhandbook.com/linux-directory-structure/" },
+          { name: "Bash Scripting", icon: "💻", url: "https://www.shellscript.sh/" },
+          { name: "File Permissions", icon: "🔐", url: "https://linuxhandbook.com/linux-file-permissions/" },
+          { name: "Netcat & Nmap", icon: "📡", url: "https://nmap.org/book/man.html" }
+        ]
+      },
+      {
+        week: 3, title: "Cryptography Essentials", desc: "Encryption, hashing, TLS, and how SSL works.", topics: [
+          { name: "Symmetric Encryption", icon: "🔑", url: "https://www.cloudflare.com/learning/ssl/what-is-encryption/" },
+          { name: "Public Key Cryptography", icon: "🗝️", url: "https://www.cloudflare.com/learning/ssl/how-does-public-key-encryption-work/" },
+          { name: "Hashing Algorithms", icon: "🔢", url: "https://www.md5hashgenerator.com/" },
+          { name: "TLS/SSL Handshake", icon: "🤝", url: "https://www.cloudflare.com/learning/ssl/what-happens-in-a-tls-handshake/" }
+        ]
+      },
+      {
+        week: 4, title: "OWASP Top 10", desc: "Critical web security risks and exploitation techniques.", topics: [
+          { name: "SQL Injection", icon: "💉", url: "https://owasp.org/www-community/attacks/SQL_Injection" },
+          { name: "XSS (Cross-Site Scripting)", icon: "⚠️", url: "https://owasp.org/www-community/attacks/xss/" },
+          { name: "Broken Authentication", icon: "🚪", url: "https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/" },
+          { name: "IDOR & Access Control", icon: "🎯", url: "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/05-Authorization_Testing/04-Testing_for_Insecure_Direct_Object_References" }
+        ]
+      },
+      {
+        week: 5, title: "Ethical Hacking & Recon", desc: "OSINT, footprinting, Google Dorks, and Shodan.", topics: [
+          { name: "OSINT Techniques", icon: "🕵️", url: "https://osintframework.com/" },
+          { name: "Google Dorks", icon: "🔎", url: "https://www.exploit-db.com/google-hacking-database" },
+          { name: "Shodan Search", icon: "📡", url: "https://www.shodan.io/" },
+          { name: "Maltego & theHarvester", icon: "🌐", url: "https://www.maltego.com/" }
+        ]
+      },
+      {
+        week: 6, title: "Exploitation & Metasploit", desc: "CVEs, exploit frameworks, buffer overflows, payloads.", topics: [
+          { name: "Metasploit Framework", icon: "🚀", url: "https://www.metasploit.com/" },
+          { name: "Buffer Overflow Basics", icon: "💥", url: "https://tryhackme.com/room/bof1" },
+          { name: "CVE Database", icon: "📋", url: "https://cve.mitre.org/" },
+          { name: "Meterpreter Sessions", icon: "🎭", url: "https://www.offensive-security.com/metasploit-unleashed/meterpreter-basics/" }
+        ]
+      },
+    {
+      week: 7, title: "Web App Penetration Testing", desc: "Burp Suite, fuzzing, API testing, and reporting.", topics: [
+        { name: "Burp Suite Community", icon: "🔧", url: "https://portswigger.net/burp/communitydownload" },
+        { name: "Web App Labs", icon: "🧪", url: "https://portswigger.net/web-security/all-labs" },
+        { name: "Fuzzing with FFUF", icon: "⚡", url: "https://github.com/ffuf/ffuf" },
+        { name: "Writing a Pentest Report", icon: "📝", url: "https://pentestreports.com/templates/" }
+      ]
+    },
+    {
+      week: 8, title: "Defensive Security & Blue Team", desc: "SIEM, log analysis, incident response, threat hunting.", topics: [
+        { name: "SIEM & Splunk Basics", icon: "📊", url: "https://www.splunk.com/en_us/training/free-courses/splunk-fundamentals-1.html" },
+        { name: "Incident Response", icon: "🚨", url: "https://www.sans.org/blog/incident-handlers-handbook/" },
+        { name: "Threat Intelligence", icon: "🧠", url: "https://attack.mitre.org/" },
+        { name: "Firewall & IDS/IPS", icon: "🛡️", url: "https://www.snort.org/" }
+      ]
+    }
+];
+
+    var SKILL_TREE = [
+      {
+        label: "BEGINNER", nodes: [
+          { name: "Networking", icon: "🌐", req: 0 },
+          { name: "Linux CLI", icon: "🐧", req: 4 },
+          { name: "Cryptography", icon: "🔑", req: 8 }
+        ]
+      },
+      {
+        label: "INTERMEDIATE", nodes: [
+          { name: "OWASP Top 10", icon: "⚠️", req: 12 },
+          { name: "Recon & OSINT", icon: "🕵️", req: 16 }
+        ]
+      },
+      {
+        label: "ADVANCED", nodes: [
+          { name: "Exploitation", icon: "💥", req: 20 },
+          { name: "Web Pentest", icon: "🔧", req: 24 }
+        ]
+      },
+      {
+        label: "EXPERT", nodes: [
+          { name: "Blue Team", icon: "🛡️", req: 28 },
+          { name: "Red Team Pro", icon: "🎯", req: 32 }
+        ]
+      }
+    ];
+
+    var ACHIEVEMENTS = [
+      { id: "first", icon: "🌱", name: "First Step", desc: "Complete your first topic", check: function (d, x) { return Object.keys(d).length >= 1; } },
+      { id: "week1", icon: "📡", name: "Network Ninja", desc: "Complete Week 1", check: function (d, x) { return [0, 1, 2, 3].every(function (i) { return d['0_' + i]; }); } },
+      { id: "halfway", icon: "⚡", name: "Halfway There", desc: "Complete 16 topics", check: function (d, x) { return Object.keys(d).length >= 16; } },
+      { id: "hacker", icon: "💻", name: "Hacker", desc: "Earn 100 XP", check: function (d, x) { return x >= 100; } },
+      { id: "elite", icon: "🔥", name: "Elite", desc: "Earn 200 XP", check: function (d, x) { return x >= 200; } },
+      { id: "complete", icon: "🏆", name: "CyberMaster", desc: "Complete all 32 topics", check: function (d, x) { return Object.keys(d).length >= 32; } },
+      { id: "speed", icon: "⚡", name: "Speed Runner", desc: "Complete 8 topics in one session", check: function (d, x) { return false; } },
+      { id: "streak7", icon: "🔥", name: "On Fire", desc: "7-day streak", check: function (d, x, st) { return st >= 7; } }
+    ];
+
+    var HUB = [
+      { cat: 'platform', icon: '🛡️', name: 'TryHackMe', url: 'https://tryhackme.com', desc: 'Gamified hacking labs for beginners.' },
+      { cat: 'platform', icon: '📦', name: 'HackTheBox', url: 'https://hackthebox.com', desc: 'Real-world CTF machines for all levels.' },
+      { cat: 'platform', icon: '🧪', name: 'PortSwigger Labs', url: 'https://portswigger.net/web-security/all-labs', desc: 'Free web app security labs.' },
+      { cat: 'platform', icon: '🎓', name: 'Cybrary', url: 'https://www.cybrary.it/', desc: 'Free and paid cybersecurity courses.' },
+      { cat: 'platform', icon: '🏫', name: 'SANS Cyber Aces', url: 'https://www.sans.org/cyberaces/', desc: 'Free SANS courses on OS and networking.' },
+      { cat: 'platform', icon: '🔓', name: 'PicoCTF', url: 'https://picoctf.org/', desc: 'Beginner CTF platform by Carnegie Mellon.' },
+      { cat: 'youtube', icon: '📺', name: 'NetworkChuck', url: 'https://www.youtube.com/@NetworkChuck', desc: 'Networking, hacking, Linux — very friendly.' },
+      { cat: 'youtube', icon: '📺', name: 'John Hammond', url: 'https://www.youtube.com/@_JohnHammond', desc: 'CTF walkthroughs and malware analysis.' },
+      { cat: 'youtube', icon: '📺', name: 'David Bombal', url: 'https://www.youtube.com/@davidbombal', desc: 'Networking, Python, ethical hacking.' },
+      { cat: 'youtube', icon: '📺', name: 'LiveOverflow', url: 'https://www.youtube.com/@LiveOverflow', desc: 'Advanced binary exploitation.' },
+      { cat: 'youtube', icon: '📺', name: 'IppSec', url: 'https://www.youtube.com/@ippsec', desc: 'HackTheBox machine walkthroughs.' },
+      { cat: 'youtube', icon: '📺', name: 'HackerSploit', url: 'https://www.youtube.com/@HackerSploit', desc: 'Kali Linux and Metasploit tutorials.' },
+      { cat: 'youtube', icon: '📺', name: 'Professor Messer', url: 'https://www.youtube.com/@professormesser', desc: 'Free CompTIA Security+ and Network+.' },
+      { cat: 'tool', icon: '🔧', name: 'Kali Linux', url: 'https://www.kali.org/', desc: 'The ultimate penetration testing OS.' },
+
+      { cat: 'tool', icon: '🦈', name: 'Wireshark', url: 'https://www.wireshark.org/', desc: 'Most popular network protocol analyser.' },
+  { cat: 'tool', icon: '🔫', name: 'Burp Suite', url: 'https://portswigger.net/burp/communitydownload', desc: 'Free web proxy and vulnerability scanner.' },
+      { cat: 'tool', icon: '🗺️', name: 'Nmap', url: 'https://nmap.org/', desc: 'Network discovery and security auditing.' },
+      { cat: 'tool', icon: '💣', name: 'Metasploit', url: 'https://www.metasploit.com/', desc: 'Most used penetration testing framework.' },
+      { cat: 'tool', icon: '⚡', name: 'FFUF', url: 'https://github.com/ffuf/ffuf', desc: 'Fast web fuzzer for brute-forcing.' },
+      { cat: 'tool', icon: '🔎', name: 'Shodan', url: 'https://www.shodan.io/', desc: 'Search engine for internet-connected devices.' },
+      { cat: 'tool', icon: '🛡️', name: 'OWASP ZAP', url: 'https://www.zaproxy.org/', desc: 'Free open-source web vulnerability scanner.' },
+      { cat: 'tool', icon: '🔐', name: 'Hashcat', url: 'https://hashcat.net/hashcat/', desc: 'Advanced GPU hash cracking tool.' },
+      { cat: 'download', icon: '⬇', name: 'Kali Linux ISO', url: 'https://www.kali.org/get-kali/', desc: 'Download Kali installer or VM images.' },
+      { cat: 'download', icon: '⬇', name: 'ParrotOS Security', url: 'https://www.parrotsec.org/download/', desc: 'Lightweight pentesting OS.' },
+      { cat: 'download', icon: '⬇', name: 'OWASP Testing Guide', url: 'https://owasp.org/www-project-web-security-testing-guide/', desc: 'Comprehensive web app testing methodology.' },
+      { cat: 'download', icon: '⬇', name: 'CTF Tools List', url: 'https://github.com/zardus/ctf-tools', desc: 'Curated CTF tools on GitHub.' },
+      { cat: 'download', icon: '⬇', name: 'Pentest Templates', url: 'https://pentestreports.com/templates/', desc: 'Professional pentest report templates.' },
+      { cat: 'reference', icon: '📖', name: 'OWASP Top 10', url: 'https://owasp.org/www-project-top-ten/', desc: '10 most critical web security risks.' },
+      { cat: 'reference', icon: '📖', name: 'MITRE ATT&CK', url: 'https://attack.mitre.org/', desc: 'Adversary tactics knowledge base.' },
+      { cat: 'reference', icon: '📖', name: 'CVE Database', url: 'https://cve.mitre.org/', desc: 'Common Vulnerabilities list.' },
+      { cat: 'reference', icon: '📖', name: 'Exploit-DB', url: 'https://www.exploit-db.com/', desc: 'Public exploit and Google Dork database.' },
+      { cat: 'reference', icon: '📖', name: 'GTFOBins', url: 'https://gtfobins.github.io/', desc: 'Unix binaries for bypassing restrictions.' },
+      { cat: 'reference', icon: '📖', name: 'LOLBAS', url: 'https://lolbas-project.github.io/', desc: 'Living off the Land Binaries for Windows.' },
+      { cat: 'reference', icon: '📖', name: 'PayloadsAllTheThings', url: 'https://github.com/swisskyrepo/PayloadsAllTheThings', desc: 'Useful payloads for web and pentest.' },
+      { cat: 'reference', icon: '📖', name: 'HackTricks', url: 'https://book.hacktricks.xyz/', desc: 'The hacker handbook — techniques.' },
+      { cat: 'practice', icon: '🎯', name: 'OverTheWire', url: 'https://overthewire.org/wargames/', desc: 'Linux CLI and privilege escalation wargames.' },
+      { cat: 'practice', icon: '🎯', name: 'PentesterLab', url: 'https://pentesterlab.com/', desc: 'Practical web exploitation exercises.' },
+      { cat: 'practice', icon: '🎯', name: 'Root-Me', url: 'https://www.root-me.org/', desc: '2000+ hacking challenges.' },
+      { cat: 'practice', icon: '🎯', name: 'VulnHub', url: 'https://www.vulnhub.com/', desc: 'Download vulnerable VMs locally.' },
+      { cat: 'practice', icon: '🎯', name: 'DVWA', url: 'https://dvwa.co.uk/', desc: 'Damn Vulnerable Web App.' },
+      { cat: 'practice', icon: '🎯', name: 'CTFtime.org', url: 'https://ctftime.org/', desc: 'Find upcoming CTF competitions.' }
+    ];
+
+    var RESOURCES = [
+      { type: "PLATFORM", name: "TryHackMe", url: "https://tryhackme.com", desc: "Gamified hacking labs" },
+      { type: "PLATFORM", name: "HackTheBox", url: "https://hackthebox.com", desc: "Real-world CTF challenges" },
+      { type: "PLATFORM", name: "PortSwigger Labs", url: "https://portswigger.net/web-security", desc: "Free web app security labs" },
+      { type: "COURSE", name: "Prof. Messer Sec+", url: "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/", desc: "Free Security+ video course" },
+      { type: "TOOL", name: "Kali Linux", url: "https://www.kali.org/", desc: "Pentesting OS" },
+      { type: "TOOL", name: "OWASP ZAP", url: "https://www.zaproxy.org/", desc: "Free web scanner" },
+      { type: "REFERENCE", name: "OWASP Top 10", url: "https://owasp.org/www-project-top-ten/", desc: "Web vulnerability list" },
+      { type: "REFERENCE", name: "MITRE ATT&CK", url: "https://attack.mitre.org/", desc: "Adversary tactics framework" },
+      { type: "YOUTUBE", name: "NetworkChuck", url: "https://www.youtube.com/@NetworkChuck", desc: "Cybersec YouTube channel" },
+      { type: "YOUTUBE", name: "John Hammond", url: "https://www.youtube.com/@_JohnHammond", desc: "CTF walkthroughs" },
+      { type: "PRACTICE", name: "OverTheWire", url: "https://overthewire.org/wargames/", desc: "Linux security wargames" },
+      { type: "PRACTICE", name: "PentesterLab", url: "https://pentesterlab.com/", desc: "Web exploitation exercises" }
+    ];
+
+    // ── KNOWLEDGE CHECK (40 questions, mixed difficulty) ──
+    var QUIZZES = [
+      // Networking
+      { q: "Which OSI layer handles IP addressing?", opts: ["Layer 2 – Data Link", "Layer 3 – Network", "Layer 4 – Transport", "Layer 7 – Application"], ans: 1, cat: "Networking" },
+      { q: "What protocol translates domain names to IP addresses?", opts: ["DHCP", "ARP", "DNS", "ICMP"], ans: 2, cat: "Networking" },
+      { q: "Which port does HTTPS use by default?", opts: ["80", "8080", "443", "22"], ans: 2, cat: "Networking" },
+      { q: "What does ARP stand for?", opts: ["Address Resolution Protocol", "Authenticated Routing Protocol", "Advanced Routing Procedure", "Access Request Protocol"], ans: 0, cat: "Networking" },
+      { q: "Which tool is best for capturing live network packets?", opts: ["Nmap", "Metasploit", "Wireshark", "Burp Suite"], ans: 2, cat: "Networking" },
+      { q: "What does the TCP three-way handshake start with?", opts: ["ACK", "SYN", "FIN", "RST"], ans: 1, cat: "Networking" },
+      { q: "Which OSI layer is responsible for end-to-end communication?", opts: ["Network", "Data Link", "Transport", "Session"], ans: 2, cat: "Networking" },
+      { q: "What is the default port for FTP?", opts: ["22", "25", "21", "443"], ans: 2, cat: "Networking" },
+      { q: "ICMP is used primarily for…?", opts: ["File transfer", "Network diagnostics (ping)", "Encrypting data", "User authentication"], ans: 1, cat: "Networking" },
+      // Linux
+      { q: "Which Linux command lists files in a directory?", opts: ["dir", "list", "ls", "show"], ans: 2, cat: "Linux" },
+      { q: "What command shows running processes in Linux?", opts: ["ps aux", "list tasks", "show proc", "run -l"], ans: 0, cat: "Linux" },
+      { q: "Which command changes file permissions in Linux?", opts: ["chown", "chgrp", "chmod", "chperm"], ans: 2, cat: "Linux" },
+      { q: "Where are system user accounts stored in Linux?", opts: ["/etc/users", "/etc/passwd", "/var/accounts", "/sys/users"], ans: 1, cat: "Linux" },
+      { q: "What does 'sudo -l' show?", opts: ["Logged in users", "Allowed sudo commands for current user", "System uptime", "Linux version"], ans: 1, cat: "Linux" },
+      { q: "Which command finds SUID files?", opts: ["find / -perm -4000", "ls -suid /", "grep SUID /etc", "locate suid"], ans: 0, cat: "Linux" },
+      // Cryptography
+      { q: "SHA-256 produces a hash of how many bits?", opts: ["128", "160", "256", "512"], ans: 2, cat: "Crypto" },
+      { q: "Which encryption uses the same key for encrypt and decrypt?", opts: ["Asymmetric", "Public key", "Symmetric", "Hashing"], ans: 2, cat: "Crypto" },
+      { q: "What does RSA stand for?", opts: ["Random Secure Algorithm", "Rivest–Shamir–Adleman", "Rapid Symmetric Auth", "Robust Security Algorithm"], ans: 1, cat: "Crypto" },
+      { q: "TLS protects data at which layer?", opts: ["Physical", "Network", "Transport", "Application"], ans: 2, cat: "Crypto" },
+      { q: "Which is NOT a property of a good hash function?", opts: ["Deterministic", "Reversible", "Collision-resistant", "Fixed output length"], ans: 1, cat: "Crypto" },
+      // Web Security / OWASP
+      { q: "What does XSS stand for?", opts: ["Extra Secure Scripting", "Cross-Site Scripting", "Cross-Server System", "Extended Style Sheets"], ans: 1, cat: "Web" },
+      { q: "What does SQL injection exploit?", opts: ["Buffer overflow", "Improper SQL input validation", "XSS vulnerability", "Broken authentication"], ans: 1, cat: "Web" },
+      { q: "CSRF stands for…?", opts: ["Cross-Site Request Forgery", "Client-Side Remote Function", "Cached Session Request Failure", "Cross-Server Response Failure"], ans: 0, cat: "Web" },
+      { q: "What is an IDOR vulnerability?", opts: ["Insecure Direct Object Reference", "Invalid Data Object Request", "Internal DNS Override Redirect", "Input Data Overflow Risk"], ans: 0, cat: "Web" },
+      { q: "Which HTTP header helps prevent clickjacking?", opts: ["Content-Type", "X-Frame-Options", "Authorization", "Cache-Control"], ans: 1, cat: "Web" },
+      // Ethical Hacking & Recon
+      { q: "OSINT stands for…?", opts: ["Online Security Intelligence", "Open Source Intelligence", "Operational Security Insight", "Open System Internet"], ans: 1, cat: "Hacking" },
+      { q: "What is Shodan used for?", opts: ["Password cracking", "Finding internet-connected devices", "Social engineering", "Code obfuscation"], ans: 1, cat: "Hacking" },
+      { q: "Google Dorks are used for…?", opts: ["Patching vulnerabilities", "Finding sensitive info via search operators", "Brute forcing passwords", "Encrypting payloads"], ans: 1, cat: "Hacking" },
+      { q: "What does 'footprinting' mean in hacking?", opts: ["Installing malware on a server", "Gathering info about a target", "Covering your tracks after an attack", "Breaking password hashes"], ans: 1, cat: "Hacking" },
+      // Exploitation
+      { q: "What port does SSH use?", opts: ["21", "22", "23", "25"], ans: 1, cat: "Exploit" },
+      { q: "What is a 'reverse shell'?", opts: ["A defensive firewall rule", "Target connects back to attacker", "Shell that hides itself", "Encrypted bash session"], ans: 1, cat: "Exploit" },
+      { q: "Metasploit's 'meterpreter' is…?", opts: ["A network scanner", "An advanced post-exploitation payload shell", "A password cracking tool", "A web proxy"], ans: 1, cat: "Exploit" },
+      { q: "What does a buffer overflow exploit do?", opts: ["Overflows a database query", "Overwrites adjacent memory to hijack execution", "Floods a network with traffic", "Intercepts encrypted traffic"], ans: 1, cat: "Exploit" },
+      { q: "CVE stands for…?", opts: ["Critical Vulnerability Exploit", "Common Vulnerabilities and Exposures", "Cyber Vector Enumeration", "Controlled Vulnerability Evaluation"], ans: 1, cat: "Exploit" },
+      // Tools
+      { q: "What does Nmap primarily do?", opts: ["Crack passwords", "Capture web traffic", "Scan networks and open ports", "Exploit SQL databases"], ans: 2, cat: "Tools" },
+      { q: "Burp Suite is mainly used for…?", opts: ["Network scanning", "Web application security testing", "Password brute-forcing", "Malware analysis"], ans: 1, cat: "Tools" },
+      { q: "FFUF is used for…?", opts: ["Packet analysis", "Web fuzzing / directory brute-forcing", "Hash cracking", "Port scanning"], ans: 1, cat: "Tools" },
+      // Defensive
+      { q: "What does SIEM stand for?", opts: ["Secure Information Event Module", "Security Information and Event Management", "System Intrusion Event Monitor", "Structured Intelligence Endpoint Management"], ans: 1, cat: "Blue Team" },
+      { q: "VPN stands for…?", opts: ["Virtual Private Network", "Very Protected Node", "Verified Proxy Net", "Virtual Public Network"], ans: 0, cat: "Blue Team" },
+      { q: "What does a firewall primarily do?", opts: ["Speed up connections", "Filter network traffic based on rules", "Encrypt all data", "Store user credentials"], ans: 1, cat: "Blue Team" },
+      { q: "IDS stands for…?", opts: ["Intrusion Detection System", "Internal Data Storage", "Internet Defense Server", "Integrated Diagnostic Suite"], ans: 0, cat: "Blue Team" }
+    ];
+
+    // ── PER-TOPIC MINI QUIZZES (3 questions each, indexed by weekIndex_topicIndex) ──
+    var TOPIC_QUIZZES = {
+      "0_0": [
+        { q: "How many layers does the OSI model have?", opts: ["5", "6", "7", "8"], ans: 2 },
+        { q: "Which OSI layer handles physical transmission of bits?", opts: ["Layer 1 – Physical", "Layer 2 – Data Link", "Layer 3 – Network", "Layer 4 – Transport"], ans: 0 },
+        { q: "Which layer is responsible for routing between networks?", opts: ["Layer 2", "Layer 3", "Layer 4", "Layer 5"], ans: 1 }
+      ],
+      "0_1": [
+        { q: "What is a subnet mask used for?", opts: ["Encrypting packets", "Dividing a network into sub-networks", "Identifying the default gateway", "Translating domain names"], ans: 1 },
+        { q: "Which IP address class supports the most hosts?", opts: ["Class A", "Class B", "Class C", "Class D"], ans: 0 },
+        { q: "What does CIDR notation /24 mean?", opts: ["24 hosts available", "24-bit subnet mask (255.255.255.0)", "24 subnets", "Class D network"], ans: 1 }
+      ],
+      "0_2": [
+        { q: "What is DNS poisoning?", opts: ["Overloading a DNS server", "Injecting false DNS records to redirect traffic", "Brute-forcing DNS passwords", "Scanning DNS for vulnerabilities"], ans: 1 },
+        { q: "Which record type maps a domain to an IP address?", opts: ["MX", "CNAME", "A", "PTR"], ans: 2 },
+        { q: "What is the default DNS port?", opts: ["80", "53", "443", "22"], ans: 1 }
+      ],
+      "0_3": [
+        { q: "What is Wireshark primarily used for?", opts: ["Port scanning", "Packet capture and analysis", "Password cracking", "Web fuzzing"], ans: 1 },
+        { q: "Which filter shows only HTTP traffic in Wireshark?", opts: ["filter: http", "tcp port 80", "http", "display=http"], ans: 2 },
+        { q: "A 'promiscuous mode' in Wireshark means…?", opts: ["Only capturing your traffic", "Capturing all traffic on the network segment", "Filtering encrypted traffic", "Running in stealth mode"], ans: 1 }
+      ],
+      "1_0": [
+        { q: "Where are system binaries stored in Linux?", opts: ["/home", "/bin", "/tmp", "/root"], ans: 1 },
+        { q: "Which directory stores user home folders?", opts: ["/root", "/home", "/usr", "/etc"], ans: 1 },
+        { q: "What is /etc/shadow used for?", opts: ["Storing temp files", "Storing encrypted user passwords", "Logging system events", "Storing environment variables"], ans: 1 }
+      ],
+      "1_1": [
+        { q: "What symbol starts a comment in Bash?", opts: ["//", "/*", "#", "--"], ans: 2 },
+        { q: "Which variable holds script arguments in Bash?", opts: ["$args", "$@", "$ARGS", "@args"], ans: 1 },
+        { q: "What does 'chmod +x file.sh' do?", opts: ["Delete the file", "Make it executable", "Make it read-only", "Copy the file"], ans: 1 }
+      ],
+      "1_2": [
+        { q: "What does chmod 777 grant?", opts: ["Read only for all", "Full rwx for owner only", "Full rwx for owner, group and others", "No permissions"], ans: 2 },
+        { q: "What permission does SUID set?", opts: ["File runs as owner's privileges", "File is hidden", "File can only be read", "File is encrypted"], ans: 0 },
+        { q: "Which command changes file ownership?", opts: ["chmod", "chown", "chgrp", "chperm"], ans: 1 }
+      ],
+      "1_3": [
+        { q: "What does 'nc -lvp 4444' do?", opts: ["Scan port 4444", "Listen for incoming connections on port 4444", "Connect to port 4444", "Kill process on 4444"], ans: 1 },
+        { q: "Which Nmap flag detects service versions?", opts: ["-p", "-sV", "-A", "-O"], ans: 1 },
+        { q: "What is Nmap's -sC flag for?", opts: ["SYN scan", "Script scan using default scripts", "Connect scan", "CPU throttle"], ans: 1 }
+      ],
+      "2_0": [
+        { q: "AES is an example of which type of encryption?", opts: ["Asymmetric", "Hashing", "Symmetric", "Steganographic"], ans: 2 },
+        { q: "Which key size is AES-256 using?", opts: ["128 bits", "192 bits", "256 bits", "512 bits"], ans: 2 },
+        { q: "What is the main weakness of symmetric encryption?", opts: ["Slow speed", "Key must be securely shared between parties", "Large key size", "No authentication"], ans: 1 }
+      ],
+      "2_1": [
+        { q: "In RSA, which key encrypts and which decrypts?", opts: ["Both keys can encrypt or decrypt", "Public encrypts, private decrypts", "Private encrypts, public decrypts", "Only private key is used"], ans: 0 },
+        { q: "What does a digital signature prove?", opts: ["Data is encrypted", "Authenticity and integrity of the sender", "The data is compressed", "The file is malware-free"], ans: 1 },
+        { q: "Which algorithm is commonly used for key exchange?", opts: ["AES", "Diffie-Hellman", "MD5", "3DES"], ans: 1 }
+      ],
+      "2_2": [
+        { q: "What property means hashing is one-way?", opts: ["Collision resistance", "Determinism", "Pre-image resistance", "Avalanche effect"], ans: 2 },
+        { q: "MD5 is considered insecure because…?", opts: ["It is too slow", "It produces collisions", "The key is too short", "It cannot hash files"], ans: 1 },
+        { q: "What is a 'salt' in password hashing?", opts: ["A type of cipher", "Random data added before hashing to prevent rainbow tables", "The hash output itself", "An encryption key"], ans: 1 }
+      ],
+      "2_3": [
+        { q: "What is the first message in a TLS handshake?", opts: ["Server Hello", "Client Hello", "Certificate", "Finished"], ans: 1 },
+        { q: "TLS certificates are issued by…?", opts: ["The website owner", "A Certificate Authority (CA)", "Your browser", "IANA"], ans: 1 },
+        { q: "What does HTTPS add over HTTP?", opts: ["Faster speed", "TLS encryption and authentication", "Compression", "Caching"], ans: 1 }
+      ],
+      "3_0": [
+        { q: "Which SQL injection payload tests for vulnerability?", opts: ["SELECT *", "' OR '1'='1", "DROP TABLE", "UNION SELECT"], ans: 1 },
+        { q: "What is a blind SQL injection?", opts: ["Injection with no visible output, inferred by behavior", "Injection through image files", "SQL injection via cookies only", "Injection that deletes data"], ans: 0 },
+        { q: "Which defense best prevents SQL injection?", opts: ["Input length limits", "Prepared statements / parameterized queries", "Disabling JavaScript", "Using HTTPS"], ans: 1 }
+      ],
+      "3_1": [
+        { q: "Which type of XSS stores the payload on the server?", opts: ["Reflected XSS", "DOM-based XSS", "Stored XSS", "Blind XSS"], ans: 2 },
+        { q: "What does a basic XSS payload look like?", opts: ["'; DROP TABLE--", "<script>alert(1)<\/script>", "SELECT 1=1", "../../../etc/passwd"], ans: 1 },
+        { q: "Which HTTP header helps mitigate XSS?", opts: ["X-Frame-Options", "Content-Security-Policy", "Authorization", "Cache-Control"], ans: 1 }
+      ],
+      "3_2": [
+        { q: "What is session hijacking?", opts: ["Guessing a user's password", "Stealing or forging session tokens to impersonate a user", "DDoS attack on sessions", "Injecting code into sessions"], ans: 1 },
+        { q: "A weak JWT implementation is vulnerable to…?", opts: ["Packet sniffing", "Algorithm confusion attacks (e.g. none algorithm)", "SQL injection", "CSRF"], ans: 1 },
+        { q: "Multi-factor authentication (MFA) primarily prevents…?", opts: ["XSS", "Credential stuffing and password-based attacks", "DDoS attacks", "Packet interception"], ans: 1 }
+      ],
+      "3_3": [
+        { q: "IDOR occurs when…?", opts: ["Input isn't sanitized for SQL", "User can access another user's resource by changing an ID", "Server sends broken headers", "JavaScript runs arbitrary code"], ans: 1 },
+        { q: "Which is an example of an IDOR vulnerability?", opts: ["Changing ?user_id=123 to ?user_id=124 to access another account", "Injecting <script> into a form", "Sending malformed HTTP headers", "Overflowing a login buffer"], ans: 0 },
+        { q: "What is the best fix for IDOR?", opts: ["Rate limiting", "Server-side authorization checks on every resource access", "Encrypting all IDs", "Disabling GET requests"], ans: 1 }
+      ],
+      "4_0": [
+        { q: "What is passive OSINT?", opts: ["Directly scanning the target", "Gathering info without interacting with the target", "Social engineering calls", "Sending phishing emails"], ans: 1 },
+        { q: "Which OSINT tool maps relationships between entities?", opts: ["Shodan", "Maltego", "Nmap", "Burp Suite"], ans: 1 },
+        { q: "Which site is a major resource for OSINT framework tools?", opts: ["osintframework.com", "exploit-db.com", "hackthebox.com", "nvd.nist.gov"], ans: 0 }
+      ],
+      "4_1": [
+        { q: "Google Dork 'site:example.com filetype:pdf' does what?", opts: ["Scans example.com for open ports", "Finds PDF files on example.com indexed by Google", "Enumerates DNS of example.com", "Lists users of example.com"], ans: 1 },
+        { q: "Which Google Dork finds exposed login pages?", opts: ["inurl:admin intitle:login", "filetype:sql", "site:example.com", "ext:php"], ans: 0 },
+        { q: "Where is the Google Hacking Database (GHDB)?", opts: ["shodan.io", "exploit-db.com/google-hacking-database", "github.com/google", "nvd.nist.gov"], ans: 1 }
+      ],
+      "4_2": [
+        { q: "What is Shodan often called?", opts: ["The hacker's Google — search engine for internet-facing devices", "A password cracker", "A web application firewall", "A reverse proxy tool"], ans: 0 },
+        { q: "Which Shodan search finds webcams?", opts: ["search: port:22", "title:'webcam'", "inurl:cam", "filter:cam"], ans: 1 },
+        { q: "What information can Shodan reveal?", opts: ["Private browsing history", "Open ports, banners, software versions of internet hosts", "Internal network topology", "Encrypted file contents"], ans: 1 }
+      ],
+      "4_3": [
+        { q: "What does theHarvester collect?", opts: ["Password hashes", "Emails, domains, IPs, and hosts from public sources", "Open ports", "Exploit code"], ans: 1 },
+        { q: "Maltego is used for…?", opts: ["Network packet capture", "Visualising relationships between OSINT entities", "Exploiting web apps", "Cracking Wi-Fi passwords"], ans: 1 },
+        { q: "What is 'passive DNS' recon?", opts: ["Scanning DNS servers directly", "Looking up historical DNS records without querying the target", "Brute-forcing subdomains", "Poisoning DNS cache"], ans: 1 }
+      ],
+      "5_0": [
+        { q: "What is the command to start Metasploit console?", opts: ["metasploit", "msfstart", "msfconsole", "start msf"], ans: 2 },
+        { q: "Which Metasploit command searches for modules?", opts: ["find", "search", "lookup", "scan"], ans: 1 },
+        { q: "What does 'set RHOSTS' configure in Metasploit?", opts: ["Payload type", "Target host(s)", "Local port", "Exploit module"], ans: 1 }
+      ],
+      "5_1": [
+        { q: "A buffer overflow writes beyond allocated memory to…?", opts: ["Crash the network", "Overwrite the return address and redirect code execution", "Encrypt memory contents", "Hide the process from the OS"], ans: 1 },
+        { q: "What is EIP in a buffer overflow context?", opts: ["Extended Interface Port", "Instruction Pointer — the register holding the next instruction address", "Exploit Injection Point", "Encrypted IP address"], ans: 1 },
+        { q: "What is NOP sled used for in buffer overflow exploits?", opts: ["Encrypting shellcode", "Creating a landing zone to increase the chance of hitting shellcode", "Detecting memory boundaries", "Clearing the stack"], ans: 1 }
+      ],
+      "5_2": [
+        { q: "CVE-2021-44228 is better known as…?", opts: ["Heartbleed", "Log4Shell", "EternalBlue", "Shellshock"], ans: 1 },
+        { q: "Where can you find public exploits for CVEs?", opts: ["google.com", "exploit-db.com", "shodan.io", "maltego.com"], ans: 1 },
+        { q: "A zero-day vulnerability means…?", opts: ["It was patched in zero days", "The vendor has zero knowledge of it and no patch exists", "It is 0 days old", "It is a low-severity bug"], ans: 1 }
+      ],
+      "5_3": [
+        { q: "What is Meterpreter?", opts: ["A network scanner", "An advanced in-memory payload shell for post-exploitation", "A password cracker", "A web proxy"], ans: 1 },
+        { q: "Which Meterpreter command uploads a file to the target?", opts: ["send", "upload", "put", "transfer"], ans: 1 },
+        { q: "What does 'getsystem' do in Meterpreter?", opts: ["Gets system info", "Attempts privilege escalation to SYSTEM", "Downloads system files", "Shows running processes"], ans: 1 }
+      ],
+      "6_0": [
+        { q: "Burp Suite's Repeater tool is used for…?", opts: ["Automated scanning", "Manually replaying and modifying HTTP requests", "Brute-forcing logins", "Passive traffic capture"], ans: 1 },
+        { q: "What is Burp Suite Intruder used for?", opts: ["Visualising site maps", "Automated attacks like fuzzing and brute-force", "Capturing packets", "Decrypting TLS"], ans: 1 },
+        { q: "How do you intercept HTTPS traffic with Burp Suite?", opts: ["Install Burp's CA certificate in your browser", "Enable stealth mode", "Use port 443 directly", "No special setup needed"], ans: 0 }
+      ],
+      "6_1": [
+        { q: "PortSwigger labs teach you…?", opts: ["Network routing", "Real-world web vulnerabilities with hands-on practice", "OS exploitation", "Wi-Fi hacking"], ans: 1 },
+        { q: "Which PortSwigger lab category covers SQL injection?", opts: ["Server-side topics", "Client-side topics", "Advanced topics", "Authentication labs"], ans: 0 },
+        { q: "What certificate do you earn completing all PortSwigger labs?", opts: ["OSCP", "Burp Suite Certified Practitioner", "CEH", "CompTIA Security+"], ans: 1 }
+      ],
+      "6_2": [
+        { q: "What is FFUF used for?", opts: ["File encryption", "Web fuzzing and directory brute-forcing", "Port scanning", "Packet analysis"], ans: 1 },
+        { q: "Which flag sets the wordlist in FFUF?", opts: ["-u", "-w", "-t", "-x"], ans: 1 },
+        { q: "What does 'fuzzing' mean in web app testing?", opts: ["Encrypting web traffic", "Sending many automated inputs to discover hidden endpoints or bugs", "Scanning for open ports", "Passive traffic analysis"], ans: 1 }
+      ],
+      "6_3": [
+        { q: "A pentest report's executive summary is aimed at…?", opts: ["The development team", "Technical architects", "Non-technical management / stakeholders", "The security operations team"], ans: 2 },
+        { q: "CVSS is used in reports to…?", opts: ["List tools used", "Score severity of vulnerabilities", "Track remediation time", "Map attack paths"], ans: 1 },
+        { q: "Which section of a pentest report describes attack steps?", opts: ["Executive Summary", "Scope", "Methodology / Technical Findings", "Appendix"], ans: 2 }
+      ],
+      "7_0": [
+        { q: "What does SIEM stand for?", opts: ["Secure Information Event Module", "Security Information and Event Management", "System Intrusion Event Monitor", "Structured Intelligence Endpoint Management"], ans: 1 },
+        { q: "Splunk is primarily a…?", opts: ["Port scanner", "SIEM / log analysis platform", "Password manager", "Firewall"], ans: 1 },
+        { q: "What is a SIEM alert?", opts: ["A patch notification", "A triggered rule indicating a potential security event", "A system shutdown command", "A hardware failure warning"], ans: 1 }
+      ],
+      "7_1": [
+        { q: "What is the first step in incident response (SANS model)?", opts: ["Eradication", "Identification", "Preparation", "Recovery"], ans: 2 },
+        { q: "During which IR phase do you remove malware?", opts: ["Preparation", "Identification", "Eradication", "Lessons Learned"], ans: 2 },
+        { q: "What is a 'post-incident report' used for?", opts: ["To punish team members", "To document what happened and improve future response", "To reset systems", "To notify law enforcement automatically"], ans: 1 }
+      ],
+      "7_2": [
+        { q: "MITRE ATT&CK is a framework for…?", opts: ["Patch management", "Documenting adversary tactics, techniques, and procedures", "Password cracking", "GDPR compliance"], ans: 1 },
+        { q: "What is 'threat hunting'?", opts: ["Passively waiting for alerts", "Proactively searching for threats already inside a network", "Scanning the internet for vulnerable targets", "Social engineering campaigns"], ans: 1 },
+        { q: "Which phase of the kill chain is 'Command and Control (C2)'?", opts: ["Reconnaissance", "Weaponization", "Actions on Objectives", "After exploitation — maintaining access"], ans: 3 }
+      ],
+      "7_3": [
+        { q: "What is the difference between IDS and IPS?", opts: ["No difference", "IDS detects threats; IPS detects AND blocks them", "IPS only logs traffic; IDS blocks it", "IDS is hardware; IPS is software"], ans: 1 },
+        { q: "Snort is an example of which type of tool?", opts: ["Web proxy", "Firewall", "IDS/IPS", "SIEM"], ans: 2 },
+        { q: "A stateful firewall tracks…?", opts: ["Only packet headers", "The state of network connections to make smarter decisions", "User login sessions", "Encryption keys"], ans: 1 }
+      ]
+    };
+
+    // ── WEEK FINAL TESTS (10 questions per week) ──
+    var WEEK_TESTS = [
+      // Week 1 — Networking
+      {
+        title: "Week 1 Final Test: Networking Fundamentals", questions: [
+          { q: "How many layers does the OSI model have?", opts: ["5", "6", "7", "8"], ans: 2 },
+          { q: "Which layer handles routing between networks?", opts: ["Layer 2", "Layer 3", "Layer 4", "Layer 5"], ans: 1 },
+          { q: "Which protocol translates domain names to IPs?", opts: ["DHCP", "ARP", "DNS", "ICMP"], ans: 2 },
+          { q: "DNS queries use which port by default?", opts: ["80", "53", "443", "22"], ans: 1 },
+          { q: "What does ARP do?", opts: ["Encrypt packets", "Map IP addresses to MAC addresses", "Assign IP addresses", "Route traffic"], ans: 1 },
+          { q: "TCP is different from UDP because…?", opts: ["TCP is faster", "TCP guarantees delivery; UDP does not", "UDP is encrypted; TCP is not", "TCP uses fewer ports"], ans: 1 },
+          { q: "Which tool captures live network packets?", opts: ["Nmap", "Wireshark", "Metasploit", "Burp Suite"], ans: 1 },
+          { q: "What does the SYN packet initiate?", opts: ["A DNS query", "A TCP three-way handshake", "An ICMP ping", "An ARP request"], ans: 1 },
+          { q: "What is the purpose of ICMP?", opts: ["File transfer", "User authentication", "Network diagnostics (e.g. ping)", "Packet encryption"], ans: 2 },
+          { q: "Which OSI layer handles MAC addresses?", opts: ["Layer 1", "Layer 2", "Layer 3", "Layer 4"], ans: 1 }
+        ]
+      },
+      // Week 2 — Linux
+      {
+        title: "Week 2 Final Test: Linux & Command Line", questions: [
+          { q: "Which directory stores user home folders by default?", opts: ["/root", "/home", "/usr", "/etc"], ans: 1 },
+          { q: "What does 'ls -la' show?", opts: ["Running processes", "All files including hidden, with permissions", "Logged in users", "Disk usage"], ans: 1 },
+          { q: "Which file stores encrypted passwords?", opts: ["/etc/passwd", "/etc/shadow", "/var/passwords", "/sys/cred"], ans: 1 },
+          { q: "chmod 755 sets permissions as…?", opts: ["rwxrwxrwx", "rwxr-xr-x", "rwx------", "r--r--r--"], ans: 1 },
+          { q: "What does 'find / -perm -4000' search for?", opts: ["World-writable files", "SUID files", "Cron jobs", "Log files"], ans: 1 },
+          { q: "Which Nmap flag detects service versions?", opts: ["-sS", "-p", "-sV", "-O"], ans: 2 },
+          { q: "What is Netcat often called?", opts: ["The scanner", "The Swiss Army knife of networking", "The firewall", "The debugger"], ans: 1 },
+          { q: "What does 'sudo -l' show?", opts: ["System logs", "Allowed sudo commands for the current user", "Listening ports", "Loaded kernel modules"], ans: 1 },
+          { q: "Which Bash variable holds the first script argument?", opts: ["$0", "$1", "$ARG", "$FIRST"], ans: 1 },
+          { q: "What does 'chown root:root file' do?", opts: ["Changes permissions to 777", "Sets the file owner and group to root", "Deletes the file", "Locks the file"], ans: 1 }
+        ]
+      },
+      // Week 3 — Crypto
+      {
+        title: "Week 3 Final Test: Cryptography", questions: [
+          { q: "Which is symmetric encryption?", opts: ["RSA", "ECC", "AES", "Diffie-Hellman"], ans: 2 },
+          { q: "What is the main advantage of asymmetric encryption?", opts: ["It is faster", "No shared secret key needed", "Smaller key sizes", "It cannot be cracked"], ans: 1 },
+          { q: "SHA-256 output is always…?", opts: ["Variable length", "128 bits", "256 bits", "512 bits"], ans: 2 },
+          { q: "What is a collision in hashing?", opts: ["When two different inputs produce the same hash output", "When a hash is decrypted", "When encryption fails", "When keys expire"], ans: 0 },
+          { q: "What is a salt in password storage?", opts: ["An encryption algorithm", "Random data prepended to passwords before hashing", "The final hash result", "A key derivation function"], ans: 1 },
+          { q: "What is the first step of the TLS handshake?", opts: ["Certificate exchange", "Server Hello", "Client Hello", "Key generation"], ans: 2 },
+          { q: "RSA encryption uses which pair of keys?", opts: ["Two private keys", "One key for all operations", "A public key and a private key", "Symmetric session keys"], ans: 2 },
+          { q: "What does 'end-to-end encryption' mean?", opts: ["Data is encrypted only at the server", "Only the communicating parties can decrypt the data", "Encryption is applied at network edge", "TLS is used"], ans: 1 },
+          { q: "MD5 is considered weak because…?", opts: ["It is too slow", "It has known collision vulnerabilities", "The key is too short", "It cannot hash binary data"], ans: 1 },
+          { q: "Which key is shared publicly in asymmetric cryptography?", opts: ["Private key", "Session key", "Public key", "Master key"], ans: 2 }
+        ]
+      },
+      // Week 4 — OWASP
+      {
+        title: "Week 4 Final Test: OWASP Top 10 & Web Security", questions: [
+          { q: "What is the most common type of SQL injection payload?", opts: ["<script>alert(1)<\/script>", "' OR '1'='1", "../../../etc/passwd", "<!-- comment -->"] ,ans : 1},
+          { q: "Stored XSS vs Reflected XSS: what is the key difference?", opts: ["Stored requires JavaScript; reflected does not", "Stored persists on the server; reflected does not", "Reflected is more dangerous", "No difference"], ans: 1 },
+          { q: "What does CSRF exploit?", opts: ["Weak passwords", "The browser automatically sending credentials with cross-site requests", "SQL database access", "Unencrypted cookies"], ans: 1 },
+          { q: "What is an IDOR vulnerability?", opts: ["Injecting code in direct objects", "Accessing another user's resource by changing a reference ID", "Server-side request interception", "Directory traversal"], ans: 1 },
+          { q: "Which OWASP risk involves using outdated software components?", opts: ["Injection", "Broken Access Control", "Vulnerable and Outdated Components", "Security Misconfiguration"], ans: 2 },
+          { q: "Security Misconfiguration includes…?", opts: ["SQL injection", "Using default passwords or leaving debug endpoints open", "XSS in forms", "Weak hashing"], ans: 1 },
+          { q: "What HTTP response header prevents clickjacking?", opts: ["Content-Type", "X-Frame-Options: DENY", "Authorization", "Cache-Control: no-store"], ans: 1 },
+          { q: "What is the best defence against XSS?", opts: ["Rate limiting", "Output encoding and Content Security Policy", "Using HTTPS", "Strong passwords"], ans: 1 },
+          { q: "Prepared statements protect against…?", opts: ["XSS", "CSRF", "SQL injection", "Broken authentication"], ans: 2 },
+          { q: "Which vulnerability lets attackers traverse directories on a server?", opts: ["XSS", "SSRF", "Path Traversal", "CSRF"], ans: 2 }
+        ]
+      },
+      // Week 5 — Recon
+      {
+        title: "Week 5 Final Test: Ethical Hacking & Recon", questions: [
+          { q: "Passive reconnaissance means…?", opts: ["Scanning the target's open ports", "Gathering info without directly interacting with the target", "Social engineering calls", "Sending phishing emails"], ans: 1 },
+          { q: "Active reconnaissance includes…?", opts: ["Reading public news about a company", "Port scanning and OS fingerprinting the target", "Looking up WHOIS records", "Searching social media"], ans: 1 },
+          { q: "Which tool is the 'search engine for hackers'?", opts: ["Google", "Shodan", "Maltego", "theHarvester"], ans: 1 },
+          { q: "What does theHarvester collect?", opts: ["Password hashes", "Emails, subdomains and IPs from public sources", "Open ports", "Malware signatures"], ans: 1 },
+          { q: "Google Dork 'filetype:sql site:target.com' does what?", opts: ["Finds all pages on target.com", "Searches for SQL database files exposed on target.com", "Runs SQL injection", "Shows cached pages"], ans: 1 },
+          { q: "WHOIS records reveal…?", opts: ["Open ports", "Domain registration and owner contact info", "SSL certificate details", "Website source code"], ans: 1 },
+          { q: "What is subdomain enumeration?", opts: ["Guessing admin passwords", "Discovering all subdomains of a target domain", "Scanning for SQL injection", "Finding SUID files"], ans: 1 },
+          { q: "Which Maltego transform finds email addresses?", opts: ["DNS transforms", "Email address from domain transforms", "Port scan transforms", "File download transforms"], ans: 1 },
+          { q: "What framework organises OSINT tools by category?", opts: ["MITRE ATT&CK", "OSINT Framework (osintframework.com)", "Metasploit", "Shodan"], ans: 1 },
+          { q: "Which tool performs DNS zone transfers to find subdomains?", opts: ["nmap", "dig / dnsrecon", "burpsuite", "ffuf"], ans: 1 }
+        ]
+      },
+      // Week 6 — Exploitation
+      {
+        title: "Week 6 Final Test: Exploitation & Metasploit", questions: [
+          { q: "What command starts the Metasploit console?", opts: ["metasploit", "msfstart", "msfconsole", "start-msf"], ans: 2 },
+          { q: "Which Metasploit command selects an exploit?", opts: ["pick", "use", "select", "load"], ans: 1 },
+          { q: "What does 'set LHOST' configure?", opts: ["Target IP", "Local host IP (attacker)", "Listener port", "Payload type"], ans: 1 },
+          { q: "A 'staged' payload differs from 'stageless' because…?", opts: ["Staged is smaller and downloads the rest from attacker", "Stageless requires internet access", "Staged has no shellcode", "Stageless only works on Windows"], ans: 0 },
+          { q: "What is a NOP sled?", opts: ["A type of rootkit", "A series of no-operation instructions to land before shellcode", "A kernel module", "A network packet"], ans: 1 },
+          { q: "Log4Shell (CVE-2021-44228) allowed attackers to…?", opts: ["Steal SSH keys", "Execute arbitrary code via a JNDI lookup in log messages", "Crash DNS servers", "Bypass firewalls"], ans: 1 },
+          { q: "EternalBlue exploits which Windows service?", opts: ["IIS Web Server", "RDP", "SMB (Server Message Block)", "FTP"], ans: 2 },
+          { q: "What does 'getsystem' achieve in Meterpreter?", opts: ["Gets system hostname", "Attempts to escalate privileges to SYSTEM", "Downloads system32 folder", "Shows system processes"], ans: 1 },
+          { q: "Post-exploitation 'hashdump' in Meterpreter extracts…?", opts: ["Network traffic", "NTLM password hashes from the SAM database", "Browser cookies", "SSL certificates"], ans: 1 },
+          { q: "What is a 'bind shell' vs a 'reverse shell'?", opts: ["They are identical", "Bind shell listens on victim; reverse shell connects from victim to attacker", "Reverse shell listens on victim; bind shell connects from attacker", "Bind shell is encrypted; reverse shell is not"], ans: 1 }
+        ]
+      },
+      // Week 7 — Web Pentest
+      {
+        title: "Week 7 Final Test: Web App Penetration Testing", questions: [
+          { q: "What is Burp Suite's Proxy used for?", opts: ["Port scanning", "Intercepting and modifying HTTP/S traffic", "Brute-force attacks", "Password cracking"], ans: 1 },
+          { q: "Which Burp module automates attack payloads?", opts: ["Repeater", "Decoder", "Intruder", "Scanner"], ans: 2 },
+          { q: "What is directory brute-forcing?", opts: ["Cracking directory passwords", "Guessing hidden paths/files on a web server using wordlists", "SQL injection via URL paths", "Scanning directory services"], ans: 1 },
+          { q: "FFUF fuzzes a URL using which placeholder?", opts: ["[FUZZ]", "{{target}}", "FUZZ", "$FUZZ"], ans: 2 },
+          { q: "What does 'Content-Type: application/json' in a request indicate?", opts: ["Response is HTML", "The client is sending JSON-formatted data", "File upload in progress", "Session cookie setting"], ans: 1 },
+          { q: "API testing differs from regular web testing because…?", opts: ["APIs cannot be attacked", "APIs are usually stateless and use structured data formats like JSON", "APIs run on different ports only", "APIs never use authentication"], ans: 1 },
+          { q: "What is a '403 Forbidden' response?", opts: ["Resource not found", "Server error", "Access denied — you lack permission", "Redirect"], ans: 2 },
+          { q: "What is the purpose of a security report's CVSS score?", opts: ["Count number of vulnerabilities", "Measure exploitability and impact to standardise severity", "Bill the client", "Rank tools used"], ans: 1 },
+          { q: "Which tool is commonly used for discovering hidden directories?", opts: ["Wireshark", "Burp Suite Repeater", "FFUF / gobuster", "Shodan"], ans: 2 },
+          { q: "A '200 OK' with no content could indicate…?", opts: ["Server crashed", "The endpoint exists but returned empty (useful during enumeration)", "Authentication failed", "Rate limit hit"], ans: 1 }
+        ]
+      },
+      // Week 8 — Blue Team
+      {
+        title: "Week 8 Final Test: Defensive Security & Blue Team", questions: [
+          { q: "What does SOC stand for?", opts: ["Security Operations Center", "System Oversight Control", "Software Orchestration Cluster", "Secure Object Container"], ans: 0 },
+          { q: "Which SIEM platform is widely used in enterprises?", opts: ["Wireshark", "Splunk", "Nmap", "Burp Suite"], ans: 1 },
+          { q: "What is the correct IR lifecycle order (SANS)?", opts: ["Identification, Preparation, Containment, Eradication, Recovery, Lessons Learned", "Preparation, Identification, Containment, Eradication, Recovery, Lessons Learned", "Preparation, Containment, Identification, Recovery, Eradication, Lessons Learned", "Identification, Containment, Preparation, Recovery, Eradication, Lessons Learned"], ans: 1 },
+          { q: "What is 'threat intelligence'?", opts: ["Scanning for vulnerabilities", "Evidence-based knowledge about existing or emerging threats to inform decisions", "Writing exploit code", "Patching systems"], ans: 1 },
+          { q: "MITRE ATT&CK organises adversary behaviour by…?", opts: ["Severity score", "Tactics (goals) and Techniques (methods)", "Chronological date", "Threat actor name only"], ans: 1 },
+          { q: "What distinguishes an IPS from an IDS?", opts: ["IPS only logs; IDS blocks", "IDS detects; IPS detects and actively blocks threats", "IPS is hardware only; IDS is software", "No difference"], ans: 1 },
+          { q: "A honeypot is…?", opts: ["A type of malware", "A decoy system designed to attract and study attackers", "A network scanner", "A log management tool"], ans: 1 },
+          { q: "What does 'blue team' refer to in cybersecurity?", opts: ["Offensive security practitioners", "Defensive security team protecting systems", "Neutral auditors", "Network administrators only"], ans: 1 },
+          { q: "Log analysis helps blue teams…?", opts: ["Write exploit code", "Detect anomalies and trace attacker activity", "Patch vulnerabilities automatically", "Perform port scans"], ans: 1 },
+          { q: "Which framework describes the cyber kill chain phases?", opts: ["OWASP Top 10", "Lockheed Martin Cyber Kill Chain", "MITRE ATT&CK only", "SANS IR Model"], ans: 1 }
+        ]
+      }
+    ];
+
+    var GLOSSARY = [
+      ["CVE", "Common Vulnerabilities and Exposures — a list of publicly disclosed security flaws."],
+      ["Payload", "Code delivered by an exploit to perform a malicious action on the target."],
+      ["Privilege Escalation", "Gaining higher permissions than originally granted on a system."],
+      ["Phishing", "Tricking users into revealing credentials via fake emails or websites."],
+      ["Zero-Day", "A vulnerability unknown to the vendor with no patch available yet."],
+      ["Reverse Shell", "A shell session initiated by the target machine back to the attacker."],
+      ["SIEM", "Security Information and Event Management — real-time log analysis and alerting."],
+      ["Enumeration", "Systematically gathering info about a target (users, ports, services)."],
+      ["Pivoting", "Using a compromised host to reach internal systems."],
+      ["MITM", "Man-In-The-Middle — attacker intercepts communications between two parties."],
+      ["Fuzzing", "Sending random/malformed inputs to find bugs and crashes in software."],
+      ["SSRF", "Server-Side Request Forgery — tricking a server into making requests on your behalf."]
+    ];
+
+    var TERMINAL_LINES = [
+      { t: 500, html: '<span class="t-g">root@cybershield</span>:~# whoami' },
+      { t: 1000, html: '&gt; <span class="t-y">CyberShield Student — Access Level: Learner</span>' },
+      { t: 1500, html: '<span class="t-g">root@cybershield</span>:~# nmap -sV localhost' },
+      { t: 2000, html: 'Starting Nmap 7.94 — <span class="t-g">8 learning modules detected</span>' },
+      { t: 2500, html: 'PORT     STATE  SERVICE       VERSION' },
+      { t: 2800, html: '22/tcp   open   ssh           Learning Module' },
+      { t: 3100, html: '80/tcp   open   http          Web Security Lab' },
+      { t: 3400, html: '443/tcp  open   https         Crypto Module' },
+      { t: 3700, html: '<span class="t-g">root@cybershield</span>:~# cat /etc/progress' },
+      { t: 4000, html: 'Progress: <span class="t-y">INITIALIZING...</span> Type commands to hack your way to success.' }
+    ];
+
+    // ═══════════════════════════════════════════════════
+    // STATE
+    // ═══════════════════════════════════════════════════
+    var ST = JSON.parse(localStorage.getItem('cs4') || 'null') || { done: {}, xp: 0, streak: 0, notes: '', achievements: [] };
+    var currentMonth = 1, currentWeekIdx = null, studyInterval = null, studySeconds = 0, timerRunning = false;
+    var prevLevel = getLevel();
+
+    function save() { localStorage.setItem('cs4', JSON.stringify(ST)); }
+    function getLevel() { return Math.floor(ST.xp / 50) + 1; }
+    function getFavs() { return JSON.parse(localStorage.getItem('cs_favs4') || '[]'); }
+    function setFavs(f) { localStorage.setItem('cs_favs4', JSON.stringify(f)); }
+
+    // ═══════════════════════════════════════════════════
+    // PARTICLES
+    // ═══════════════════════════════════════════════════
+    (function () {
+      var c = document.getElementById('particles');
+      var ctx = c.getContext('2d');
+      var pts = [];
+      function resize() { c.width = window.innerWidth; c.height = window.innerHeight; }
+      resize(); window.addEventListener('resize', resize);
+      for (var i = 0; i < 80; i++) {
+        pts.push({
+          x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight,
+          vx: (Math.random() - .5) * .4, vy: (Math.random() - .5) * .4, r: Math.random() * 2 + .5,
+          a: Math.random() * .6 + .1
+        });
+      }
+      function draw() {
+        ctx.clearRect(0, 0, c.width, c.height);
+        pts.forEach(function (p) {
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0 || p.x > c.width) p.vx *= -1;
+          if (p.y < 0 || p.y > c.height) p.vy *= -1;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(0,255,200,' + p.a + ')'; ctx.fill();
+        });
+        pts.forEach(function (a, i) {
+          pts.forEach(function (b, j) {
+            if (j <= i) return;
+            var dx = a.x - b.x, dy = a.y - b.y, d = Math.sqrt(dx * dx + dy * dy);
+            if (d < 120) {
+              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+              ctx.strokeStyle = 'rgba(0,255,200,' + (0.12 * (1 - d / 120)) + ')';
+              ctx.lineWidth = .5; ctx.stroke();
+            }
+          });
+        });
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    // ═══════════════════════════════════════════════════
+    // BOOT SEQUENCE
+    // ═══════════════════════════════════════════════════
+    (function () {
+      var fill = document.getElementById('boot-fill');
+      var l4 = document.getElementById('boot-line4');
+      var l5 = document.getElementById('boot-line5');
+      var pct = 0;
+      var iv = setInterval(function () { pct += 2; fill.style.width = pct + '%'; }, 30);
+      setTimeout(function () { l4.textContent = '[ OK ] Activating neural firewall...'; }, 600);
+      setTimeout(function () { l5.innerHTML = '[ <span style="color:#0af">SYS</span> ] System ready. Welcome, Hacker.'; }, 1100);
+      setTimeout(function () {
+        clearInterval(iv); fill.style.width = '100%';
+        setTimeout(function () {
+          var boot = document.getElementById('boot');
+          boot.style.transition = 'opacity .7s';
+          boot.style.opacity = '0';
+          setTimeout(function () { boot.style.display = 'none'; }, 700);
+        }, 400);
+      }, 1600);
+    })();
+
+    // ═══════════════════════════════════════════════════
+    // UTILITIES
+    // ═══════════════════════════════════════════════════
+    function jumpTo(id) { var el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    function showToast(msg) { var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(function () { t.classList.remove('show'); }, 3000); }
+    function fmt(s) { return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); }
+
+    function showLevelUp() {
+      var lu = document.getElementById('levelup');
+      lu.querySelector('.lu-box').textContent = 'LEVEL ' + (getLevel()) + ' ⚡';
+      lu.classList.add('show');
+      setTimeout(function () { lu.classList.remove('show'); }, 2200);
+    }
+
+    // ═══════════════════════════════════════════════════
+    // MODAL
+    // ═══════════════════════════════════════════════════
+    function openModal(title, html, btns) {
+      document.getElementById('mTitle').textContent = title;
+      document.getElementById('mBody').innerHTML = html;
+      var row = document.getElementById('mBtns'); row.innerHTML = '';
+      btns.forEach(function (b) {
+        var el = document.createElement('button');
+        el.className = 'mbtn ' + (b.cls || 'mbtn-sec');
+        el.textContent = b.label;
+        el.addEventListener('click', b.fn);
+        row.appendChild(el);
+      });
+      document.getElementById('overlay').classList.add('open');
+    }
+    function closeModal() { document.getElementById('overlay').classList.remove('open'); }
+    document.getElementById('overlay').addEventListener('click', function (e) { if (e.target === this) closeModal(); });
+
+    // ═══════════════════════════════════════════════════
+    // STATS & XP
+    // ═══════════════════════════════════════════════════
+    function countDone(gi) { return WEEKS[gi].topics.filter(function (_, ti) { return !!ST.done[gi + '_' + ti]; }).length; }
+
+    function updateStats() {
+      var total = 32, done = Object.keys(ST.done).length, xp = ST.xp;
+      var wDone = WEEKS.filter(function (w, i) { return countDone(i) === w.topics.length; }).length;
+      var pct = Math.round((done / total) * 100);
+      var dLeft = Math.max(0, 60 - Math.floor(done * 1.875));
+      var lv = getLevel();
+
+      ['stTopics', 'tTopics'].forEach(function (id) { var el = document.getElementById(id); if (el) el.textContent = done; });
+      ['stXp', 'tXp'].forEach(function (id) { var el = document.getElementById(id); if (el) el.textContent = xp; });
+      document.getElementById('stWeeks').textContent = wDone;
+      ['stPct', 'tPct'].forEach(function (id) { var el = document.getElementById(id); if (el) el.textContent = pct + '%'; });
+      document.getElementById('stStreak').textContent = ST.streak;
+      document.getElementById('stLevel').textContent = lv;
+      document.getElementById('tDays').textContent = dLeft;
+      document.getElementById('tWeeks').textContent = Math.ceil(dLeft / 7);
+      document.getElementById('streakNum').textContent = ST.streak;
+
+      // XP ring
+      var lvXp = (xp % 50), progress = lvXp / 50;
+      var circ = 113, offset = circ - (progress * circ);
+      document.getElementById('xpRing').style.strokeDashoffset = offset;
+      document.getElementById('xpNum').textContent = lvXp;
+      document.getElementById('lvlBadge').textContent = 'LVL ' + lv;
+
+      checkAchievements();
+      updateSkillTree();
+    }
+
+    // ═══════════════════════════════════════════════════
+    // ACHIEVEMENTS
+    // ═══════════════════════════════════════════════════
+    function checkAchievements() {
+      var newly = [];
+      ACHIEVEMENTS.forEach(function (a) {
+        var had = ST.achievements.indexOf(a.id) !== -1;
+        var now = a.check(ST.done, ST.xp, ST.streak);
+        if (now && !had) { ST.achievements.push(a.id); newly.push(a); }
+      });
+      if (newly.length) {
+        save();
+        newly.forEach(function (a) { showToast('🏆 Achievement Unlocked: ' + a.name + '!'); });
+      }
+      renderAchievements();
+    }
+
+    function renderAchievements() {
+      var row = document.getElementById('achRow'); row.innerHTML = '';
+      ACHIEVEMENTS.forEach(function (a) {
+        var unlocked = ST.achievements.indexOf(a.id) !== -1;
+        var div = document.createElement('div');
+        div.className = 'badge-item ' + (unlocked ? 'unlocked' : 'locked');
+        div.innerHTML = '<div class="badge-icon">' + a.icon + '</div><div><div style="font-weight:700;font-size:.7rem">' + a.name + '</div><div style="font-size:.6rem;opacity:.7">' + a.desc + '</div></div>';
+        row.appendChild(div);
+      });
+    }
+
+    // ═══════════════════════════════════════════════════
+    // SKILL TREE
+    // ═══════════════════════════════════════════════════
+    function updateSkillTree() {
+      var done = Object.keys(ST.done).length;
+      var wrap = document.getElementById('skillTree'); wrap.innerHTML = '';
+      SKILL_TREE.forEach(function (col) {
+        var colDiv = document.createElement('div'); colDiv.className = 'skill-col';
+        var lbl = document.createElement('div'); lbl.className = 'skill-col-lbl'; lbl.textContent = col.label;
+        colDiv.appendChild(lbl);
+        col.nodes.forEach(function (n) {
+          var nd = document.createElement('div');
+          var cls = done >= n.req + 4 ? 'unlocked' : done >= n.req ? 'active' : 'locked';
+          nd.className = 'skill-node ' + cls;
+          nd.innerHTML = '<span class="skill-icon">' + n.icon + '</span><div>' + n.name + '</div>';
+          colDiv.appendChild(nd);
+        });
+        wrap.appendChild(colDiv);
+      });
+    }
+
+    // ═══════════════════════════════════════════════════
+    // WEEKS
+    // ═══════════════════════════════════════════════════
+    function renderWeeks() {
+      var grid = document.getElementById('weeksGrid');
+      var offset = currentMonth === 2 ? 4 : 0;
+      grid.innerHTML = '';
+      WEEKS.slice(offset, offset + 4).forEach(function (w, i) {
+        var gi = offset + i, done = countDone(gi), tot = w.topics.length;
+        var pct = Math.round((done / tot) * 100), comp = done === tot;
+        var card = document.createElement('div');
+        card.className = 'week-card' + (comp ? ' completed' : '') + (gi === currentWeekIdx ? ' active-card' : '');
+        card.innerHTML = '<div class="card-bg"></div>'
+          + '<div class="week-num">WEEK ' + w.week + ' &nbsp;·&nbsp; MONTH ' + currentMonth + '</div>'
+          + '<div class="week-title">' + w.title + '</div>'
+          + '<div class="week-desc">' + w.desc + '</div>'
+          + '<div class="week-footer">'
+          + '<span class="week-prog">' + done + '/' + tot + ' topics</span>'
+          + '<span class="chip ' + (comp ? 'chip-done' : done > 0 ? 'chip-wip' : 'chip-new') + '">' + (comp ? '✓ DONE' : done > 0 ? 'IN PROGRESS' : 'START') + '</span>'
+          + '</div>'
+          + '<div class="wbar-wrap"><div class="wbar" style="width:' + pct + '%"></div></div>';
+        (function (gi2, w2) { card.addEventListener('click', function () { openWeek(gi2, w2); }); })(gi, w);
+        grid.appendChild(card);
+      });
+    }
+
+    function openWeek(gi, w) {
+      currentWeekIdx = gi;
+      document.getElementById('panelTitle').textContent = 'Week ' + w.week + ': ' + w.title;
+      document.getElementById('panelSub').textContent = w.desc;
+      var list = document.getElementById('topicList'); list.innerHTML = '';
+      w.topics.forEach(function (t, ti) {
+        var isDone = !!ST.done[gi + '_' + ti];
+        var hasQuiz = !!(TOPIC_QUIZZES[gi + '_' + ti] && TOPIC_QUIZZES[gi + '_' + ti].length);
+        var item = document.createElement('div'); item.className = 'topic-item';
+        var icon = document.createElement('span'); icon.className = 'topic-icon'; icon.textContent = t.icon;
+        var info = document.createElement('div'); info.className = 'topic-info';
+        info.innerHTML = '<div class="topic-name">' + t.name + '</div><div class="topic-url">' + t.url.replace('https://', '').replace('http://', '') + '</div>';
+        var openBtn = document.createElement('a'); openBtn.className = 'tbtn'; openBtn.textContent = 'OPEN ↗';
+        openBtn.href = t.url; openBtn.target = '_blank'; openBtn.rel = 'noopener';
+        openBtn.addEventListener('click', function (e) { e.stopPropagation(); });
+        // Per-topic quiz button
+        var qBtn = document.createElement('button');
+        qBtn.className = 'tbtn';
+        qBtn.style.cssText = 'border-color:rgba(176,96,255,.4);color:var(--p);';
+        qBtn.textContent = hasQuiz ? '📘 QUIZ' : '📘';
+        qBtn.title = hasQuiz ? 'Take a mini quiz for this topic' : 'No quiz yet';
+        (function (gi2, ti2, tname) {
+          qBtn.addEventListener('click', function (e) { e.stopPropagation(); openTopicQuiz(gi2, ti2, tname); });
+        })(gi, ti, t.name);
+        var dBtn = document.createElement('button'); dBtn.className = 'tbtn' + (isDone ? ' done' : ''); dBtn.textContent = isDone ? '✓ DONE' : 'MARK DONE';
+        (function (gi2, ti2, btn) { btn.addEventListener('click', function (e) { e.stopPropagation(); markDone(gi2, ti2, btn); }); })(gi, ti, dBtn);
+        item.appendChild(icon); item.appendChild(info); item.appendChild(openBtn); item.appendChild(qBtn); item.appendChild(dBtn);
+        list.appendChild(item);
+      });
+
+      // Week Final Test button
+      var done = countDone(gi);
+      var isComplete = done === w.topics.length;
+      var testWrap = document.createElement('div');
+      testWrap.style.cssText = 'margin-top:16px;padding-top:14px;border-top:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;';
+      var testInfo = document.createElement('div');
+      testInfo.innerHTML = '<div style="font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.1em">WEEK ' + w.week + ' FINAL TEST</div>'
+        + '<div style="font-size:.78rem;color:' + (isComplete ? 'var(--txt)' : 'var(--muted)') + ';">' + (isComplete ? '10-question comprehensive exam — test your full understanding' : 'Complete all ' + w.topics.length + ' topics to unlock the final test') + '</div>';
+      var testBtn = document.createElement('button');
+      testBtn.style.cssText = 'padding:9px 20px;border-radius:8px;font-family:var(--mono);font-size:.72rem;cursor:' + (isComplete ? 'pointer' : 'not-allowed') + ';letter-spacing:.08em;flex-shrink:0;transition:all .2s;'
+        + (isComplete ? 'background:linear-gradient(135deg,var(--g2),var(--g));color:#000;font-weight:700;border:none;box-shadow:0 0 20px rgba(0,255,200,.25);' : 'background:var(--s2);color:var(--dim);border:1px solid var(--b1);');
+      testBtn.textContent = isComplete ? '🎓 TAKE FINAL TEST' : '🔒 LOCKED';
+      if (isComplete) {
+        (function (gi2) { testBtn.addEventListener('click', function () { openWeekTest(gi2); }); })(gi);
+        testBtn.addEventListener('mouseover', function () { this.style.boxShadow = '0 0 30px rgba(0,255,200,.4)'; });
+        testBtn.addEventListener('mouseout', function () { this.style.boxShadow = '0 0 20px rgba(0,255,200,.25)'; });
+      }
+      testWrap.appendChild(testInfo); testWrap.appendChild(testBtn);
+      list.appendChild(testWrap);
+
+      var panel = document.getElementById('topic-panel');
+      panel.style.display = 'block';
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      renderWeeks();
+    }
+
+    function closePanel() {
+      document.getElementById('topic-panel').style.display = 'none';
+      currentWeekIdx = null; renderWeeks();
+    }
+
+    function markDone(gi, ti, btn) {
+      var key = gi + '_' + ti, lvBefore = getLevel();
+      if (ST.done[key]) { delete ST.done[key]; ST.xp = Math.max(0, ST.xp - 10); btn.classList.remove('done'); btn.textContent = 'MARK DONE'; showToast('Topic unmarked.'); }
+      else { ST.done[key] = true; ST.xp += 10; btn.classList.add('done'); btn.textContent = '✓ DONE'; showToast('🎉 +10 XP — Keep going!'); }
+      save(); updateStats(); renderWeeks();
+      if (getLevel() > lvBefore) setTimeout(showLevelUp, 200);
+    }
+
+    document.getElementById('tab1').addEventListener('click', function () { currentMonth = 1; document.getElementById('tab1').classList.add('active'); document.getElementById('tab2').classList.remove('active'); closePanel(); renderWeeks(); });
+    document.getElementById('tab2').addEventListener('click', function () { currentMonth = 2; document.getElementById('tab2').classList.add('active'); document.getElementById('tab1').classList.remove('active'); closePanel(); renderWeeks(); });
+    document.getElementById('btnClosePanel').addEventListener('click', closePanel);
+
+    // ═══════════════════════════════════════════════════
+    // HUB
+    // ═══════════════════════════════════════════════════
+    function renderHub() {
+      var grid = document.getElementById('hubGrid'); grid.innerHTML = '';
+      var favs = getFavs();
+      HUB.forEach(function (item, idx) {
+        var isFav = favs.indexOf(idx) !== -1;
+        var domain = item.url.replace('https://', '').replace('http://', '').split('/')[0];
+        var card = document.createElement('div'); card.className = 'hub-card'; card.setAttribute('data-cat', item.cat); card.setAttribute('data-idx', String(idx));
+        card.innerHTML = '<div class="hub-top"><span class="hub-pill hp-' + item.cat + '">' + item.cat.toUpperCase() + '</span><span class="hub-icon">' + item.icon + '</span></div>'
+          + '<div class="hub-name">' + item.name + '</div>'
+          + '<div class="hub-desc">' + item.desc + '</div>'
+          + '<div class="hub-domain">' + domain + '</div>'
+          + '<div class="hub-btns"><a class="hbtn" href="' + item.url + '" target="_blank" rel="noopener">↗ OPEN SITE</a>'
+          + '<button class="hfav' + (isFav ? ' faved' : '') + '">⭐</button></div>';
+        (function (i, c) {
+          c.querySelector('.hfav').addEventListener('click', function (e) {
+            e.stopPropagation();
+            var f = getFavs(), pos = f.indexOf(i);
+            if (pos !== -1) { f.splice(pos, 1); this.classList.remove('faved'); showToast('Removed from favourites'); }
+            else { f.push(i); this.classList.add('faved'); showToast('⭐ Added to favourites!'); }
+            setFavs(f);
+          });
+        })(idx, card);
+        grid.appendChild(card);
+      });
+    }
+
+    document.getElementById('hubFilters').addEventListener('click', function (e) {
+      var btn = e.target.closest('.hf'); if (!btn) return;
+      document.querySelectorAll('.hf').forEach(function (b) { b.classList.remove('active'); }); btn.classList.add('active');
+      var cat = btn.getAttribute('data-cat'), favs = getFavs();
+      document.querySelectorAll('.hub-card').forEach(function (card) {
+        var cc = card.getAttribute('data-cat'), idx = parseInt(card.getAttribute('data-idx'), 10);
+        if (cat === 'all') card.classList.remove('hidden');
+        else if (cat === 'fav') card.classList.toggle('hidden', favs.indexOf(idx) === -1);
+        else card.classList.toggle('hidden', cc !== cat);
+      });
+    });
+
+    // ═══════════════════════════════════════════════════
+    // RESOURCES
+    // ═══════════════════════════════════════════════════
+    function renderResources() {
+      var grid = document.getElementById('resGrid');
+      RESOURCES.forEach(function (r) {
+        var a = document.createElement('a'); a.className = 'res-card'; a.href = r.url; a.target = '_blank'; a.rel = 'noopener';
+        a.innerHTML = '<div class="res-type">' + r.type + '</div><div class="res-name">' + r.name + '</div><div class="res-url">' + r.url.replace('https://', '') + '</div><div style="font-size:.7rem;color:var(--muted);margin-top:3px">' + r.desc + '</div>';
+        grid.appendChild(a);
+      });
+    }
+
+    // ═══════════════════════════════════════════════════
+    // QUICK ACTIONS
+    // ═══════════════════════════════════════════════════
+
+    // KNOWLEDGE CHECK — 10 random questions with score + weak/strong area summary
+    document.getElementById('btnQuiz').addEventListener('click', openQuiz);
+    function openQuiz() {
+      // Shuffle and pick 10 questions
+      var shuffled = QUIZZES.slice().sort(function() { return Math.random() - 0.5; });
+      var selected = shuffled.slice(0, 10);
+      var current = 0, score = 0;
+      // Track per-category results: { cat: { correct, total } }
+      var catStats = {};
+      selected.forEach(function(q) {
+        var c = q.cat || 'General';
+        if (!catStats[c]) catStats[c] = { correct: 0, total: 0 };
+        catStats[c].total++;
+      });
+
+      function showResults() {
+        var pct = Math.round((score / selected.length) * 100);
+        var xpGained = score * 5;
+        ST.xp += xpGained; save(); updateStats();
+
+        // Determine strong (>=70%) and weak (<60%) categories
+        var strong = [], weak = [], ok = [];
+        Object.keys(catStats).forEach(function(cat) {
+          var s = catStats[cat];
+          var p = Math.round((s.correct / s.total) * 100);
+          s.pct = p;
+          if (p >= 70) strong.push(cat);
+          else if (p < 60) weak.push(cat);
+          else ok.push(cat);
+        });
+
+        var grade = pct >= 90 ? '🏆 Expert' : pct >= 70 ? '🟢 Good' : pct >= 50 ? '🟡 Fair' : '🔴 Needs Work';
+        var gradeColor = pct >= 70 ? 'var(--g)' : pct >= 50 ? 'var(--y)' : 'var(--r)';
+
+        var html = '<div style="text-align:center;padding:8px 0 16px">'
+          + '<div style="font-family:var(--orb);font-size:2.8rem;font-weight:900;color:' + gradeColor + ';text-shadow:0 0 20px ' + gradeColor + '">' + pct + '%</div>'
+          + '<div style="font-size:1rem;font-weight:600;color:var(--txt);margin-top:4px">' + grade + '</div>'
+          + '<div style="font-size:.75rem;color:var(--muted);margin-top:4px">' + score + ' / ' + selected.length + ' correct &nbsp;·&nbsp; +' + xpGained + ' XP earned</div>'
+          + '</div>'
+          + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">';
+
+        // Strong areas
+        html += '<div style="background:rgba(0,255,200,.06);border:1px solid rgba(0,255,200,.2);border-radius:10px;padding:12px">'
+          + '<div style="font-family:var(--mono);font-size:.6rem;color:var(--g);letter-spacing:.12em;margin-bottom:8px">💪 STRONG AREAS</div>';
+        if (strong.length) {
+          strong.forEach(function(cat) {
+            html += '<div style="display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:4px">'
+              + '<span style="color:var(--txt)">' + cat + '</span>'
+              + '<span style="color:var(--g);font-weight:700">' + catStats[cat].pct + '%</span></div>';
+          });
+        } else {
+          html += '<div style="font-size:.7rem;color:var(--muted)">Keep studying to build strengths!</div>';
+        }
+        html += '</div>';
+
+        // Weak areas
+        html += '<div style="background:rgba(255,48,96,.06);border:1px solid rgba(255,48,96,.2);border-radius:10px;padding:12px">'
+          + '<div style="font-family:var(--mono);font-size:.6rem;color:var(--r);letter-spacing:.12em;margin-bottom:8px">⚠️ WEAK AREAS</div>';
+        if (weak.length) {
+          weak.forEach(function(cat) {
+            html += '<div style="display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:4px">'
+              + '<span style="color:var(--txt)">' + cat + '</span>'
+              + '<span style="color:var(--r);font-weight:700">' + catStats[cat].pct + '%</span></div>';
+          });
+        } else {
+          html += '<div style="font-size:.7rem;color:var(--muted)">No weak areas — great job!</div>';
+        }
+        html += '</div></div>';
+
+        // All category breakdown
+        html += '<div style="border-top:1px solid var(--b1);padding-top:12px">'
+          + '<div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);letter-spacing:.12em;margin-bottom:8px">FULL BREAKDOWN</div>';
+        Object.keys(catStats).forEach(function(cat) {
+          var s = catStats[cat];
+          var barColor = s.pct >= 70 ? 'var(--g)' : s.pct >= 50 ? 'var(--y)' : 'var(--r)';
+          html += '<div style="margin-bottom:7px">'
+            + '<div style="display:flex;justify-content:space-between;font-size:.7rem;margin-bottom:3px">'
+            + '<span style="color:var(--txt)">' + cat + '</span>'
+            + '<span style="color:var(--muted)">' + s.correct + '/' + s.total + '</span></div>'
+            + '<div style="height:4px;background:var(--b1);border-radius:2px;overflow:hidden">'
+            + '<div style="height:100%;width:' + s.pct + '%;background:' + barColor + ';border-radius:2px;transition:width .6s ease"></div>'
+            + '</div></div>';
+        });
+        html += '</div>';
+
+        document.getElementById('mTitle').textContent = '🧠 Knowledge Check — Results';
+        document.getElementById('mBody').innerHTML = html;
+        document.getElementById('mBtns').innerHTML = '';
+        var retryBtn = document.createElement('button'); retryBtn.className = 'mbtn mbtn-primary'; retryBtn.textContent = '🔁 Retake';
+        retryBtn.addEventListener('click', function() { closeModal(); setTimeout(openQuiz, 120); });
+        var closeBtn = document.createElement('button'); closeBtn.className = 'mbtn mbtn-sec'; closeBtn.textContent = 'Close';
+        closeBtn.addEventListener('click', closeModal);
+        document.getElementById('mBtns').appendChild(retryBtn);
+        document.getElementById('mBtns').appendChild(closeBtn);
+        if (pct >= 70) setTimeout(showLevelUp, 300);
+      }
+
+      function showQ() {
+        if (current >= selected.length) { showResults(); return; }
+        var q = selected[current];
+        var cat = q.cat || 'General';
+        var html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'
+          + '<span style="font-family:var(--mono);font-size:.6rem;color:var(--muted)">Question ' + (current + 1) + ' / ' + selected.length + '</span>'
+          + '<span style="font-family:var(--mono);font-size:.6rem;background:rgba(0,255,200,.1);color:var(--g);border:1px solid rgba(0,255,200,.2);padding:2px 10px;border-radius:20px;letter-spacing:.1em">' + cat.toUpperCase() + '</span>'
+          + '</div>'
+          + '<div style="display:flex;gap:3px;margin-bottom:12px">'
+          + selected.map(function(_, i) { return '<div style="flex:1;height:4px;border-radius:2px;background:' + (i < current ? 'var(--g)' : i === current ? 'var(--b)' : 'var(--b1)') + '"></div>'; }).join('')
+          + '</div>'
+          + '<p style="margin-bottom:14px;font-weight:600;font-size:.9rem;color:var(--txt)">' + q.q + '</p>';
+        q.opts.forEach(function(o, i) { html += '<button class="qopt" id="kcqo' + i + '">' + o + '</button>'; });
+        html += '<div id="kcfb" style="margin-top:10px;font-size:.8rem;min-height:18px"></div>';
+        document.getElementById('mTitle').textContent = '🧠 Knowledge Check';
+        document.getElementById('mBody').innerHTML = html;
+        document.getElementById('mBtns').innerHTML = '';
+        q.opts.forEach(function(_, i) {
+          document.getElementById('kcqo' + i).addEventListener('click', function() {
+            for (var j = 0; j < q.opts.length; j++) {
+              var b = document.getElementById('kcqo' + j); b.disabled = true;
+              if (j === q.ans) b.classList.add('correct');
+              else if (j === i && i !== q.ans) b.classList.add('wrong');
+            }
+            var fb = document.getElementById('kcfb');
+            if (i === q.ans) {
+              fb.textContent = '✅ Correct!'; fb.style.color = 'var(--g)';
+              score++; catStats[cat].correct++;
+            } else {
+              fb.textContent = '❌ Wrong — correct: ' + q.opts[q.ans]; fb.style.color = 'var(--r)';
+            }
+            setTimeout(function() { current++; showQ(); }, 900);
+          });
+        });
+      }
+
+      openModal('🧠 Knowledge Check', '', []);
+      showQ();
+    }
+
+    // TOPIC MINI QUIZ (3 questions)
+    function openTopicQuiz(gi, ti, topicName) {
+      var key = gi + '_' + ti;
+      var qs = TOPIC_QUIZZES[key];
+      if (!qs || !qs.length) { showToast('No quiz available for this topic yet.'); return; }
+      var current = 0, score = 0;
+      function showQ() {
+        if (current >= qs.length) {
+          var pct = Math.round((score / qs.length) * 100);
+          var grade = pct >= 80 ? '🟢 Excellent!' : pct >= 60 ? '🟡 Good' : '🔴 Needs Review';
+          var xpGained = score * 3;
+          ST.xp += xpGained; save(); updateStats();
+          var html = '<div style="text-align:center;padding:10px 0">'
+            + '<div style="font-family:var(--orb);font-size:2.5rem;color:var(--g);text-shadow:0 0 20px var(--g2)">' + (pct) + '%</div>'
+            + '<div style="margin-top:6px;font-size:.85rem;color:var(--txt)">' + grade + '</div>'
+            + '<div style="margin-top:6px;font-size:.78rem;color:var(--muted)">' + score + '/' + qs.length + ' correct · +' + xpGained + ' XP earned</div>'
+            + '<div style="margin-top:12px;font-size:.75rem;color:var(--muted)">' +
+            (pct >= 80 ? 'You know this topic well! Mark it done ✓' : 'Keep studying this topic before moving on.')
+            + '</div></div>';
+          document.getElementById('mBody').innerHTML = html;
+          document.getElementById('mBtns').innerHTML = '';
+          var cb = document.createElement('button'); cb.className = 'mbtn mbtn-primary'; cb.textContent = 'Close'; cb.addEventListener('click', closeModal);
+          document.getElementById('mBtns').appendChild(cb);
+          return;
+        }
+        var q = qs[current];
+        var html = '<div style="font-family:var(--mono);font-size:.6rem;color:var(--muted);margin-bottom:8px">Question ' + (current + 1) + ' / ' + qs.length + '</div>'
+          + '<p style="margin-bottom:14px;font-weight:600;font-size:.9rem;color:var(--txt)">' + q.q + '</p>';
+        q.opts.forEach(function (o, i) { html += '<button class="qopt" id="tqo' + i + '">' + o + '</button>'; });
+        html += '<div id="tqfb" style="margin-top:10px;font-size:.8rem;min-height:18px"></div>';
+        document.getElementById('mTitle').textContent = '📘 Topic Quiz: ' + topicName;
+        document.getElementById('mBody').innerHTML = html;
+        document.getElementById('mBtns').innerHTML = '';
+        q.opts.forEach(function (_, i) {
+          document.getElementById('tqo' + i).addEventListener('click', function () {
+            for (var j = 0; j < q.opts.length; j++) {
+              var b = document.getElementById('tqo' + j); b.disabled = true;
+              if (j === q.ans) b.classList.add('correct');
+              else if (j === i && i !== q.ans) b.classList.add('wrong');
+            }
+            var fb = document.getElementById('tqfb');
+            if (i === q.ans) { fb.textContent = '✅ Correct!'; fb.style.color = 'var(--g)'; score++; }
+            else { fb.textContent = '❌ Wrong!'; fb.style.color = 'var(--r)'; }
+            setTimeout(function () { current++; showQ(); }, 800);
+          });
+        });
+      }
+      openModal('📘 Topic Quiz: ' + topicName, '', []);
+      showQ();
+    }
+
+    // WEEK FINAL TEST (10 questions, locked until week complete)
+    function openWeekTest(gi) {
+      var w = WEEKS[gi];
+      var done = countDone(gi);
+      if (done < w.topics.length) {
+        showToast('⚠️ Complete all topics in this week first!'); return;
+      }
+      var test = WEEK_TESTS[gi];
+      if (!test) { showToast('Test not available.'); return; }
+      var qs = test.questions.slice();
+      // shuffle
+      for (var i = qs.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var tmp = qs[i]; qs[i] = qs[j]; qs[j] = tmp; }
+      var current = 0, score = 0, answers = [];
+      function showQ() {
+        if (current >= qs.length) {
+          var pct = Math.round((score / qs.length) * 100);
+          var grade = pct >= 90 ? 'S — EXPERT 🏆' : pct >= 80 ? 'A — EXCELLENT 🟢' : pct >= 70 ? 'B — GOOD 🟡' : pct >= 60 ? 'C — FAIR 🟠' : 'F — NEEDS WORK 🔴';
+          var xpGained = Math.round(pct / 10) * 5;
+          ST.xp += xpGained; save(); updateStats();
+          var html = '<div style="text-align:center;padding:8px 0">'
+            + '<div style="font-family:var(--orb);font-size:3rem;font-weight:900;color:' + (pct >= 70 ? 'var(--g)' : 'var(--r)') + ';text-shadow:0 0 30px ' + (pct >= 70 ? 'var(--g2)' : 'var(--r)') + '">' + pct + '%</div>'
+            + '<div style="margin-top:8px;font-size:1rem;font-weight:600;color:var(--txt)">' + grade + '</div>'
+            + '<div style="margin-top:6px;font-size:.78rem;color:var(--muted)">' + score + ' / ' + qs.length + ' correct · +' + xpGained + ' XP</div>'
+            + '</div>'
+            + '<div style="margin-top:18px;border-top:1px solid var(--b1);padding-top:14px">'
+            + '<div style="font-family:var(--mono);font-size:.62rem;color:var(--muted);letter-spacing:.12em;margin-bottom:10px">REVIEW</div>';
+          qs.forEach(function (q, idx) {
+            var correct = answers[idx] === q.ans;
+            html += '<div style="margin-bottom:10px;padding:10px 12px;border-radius:8px;border:1px solid ' + (correct ? 'rgba(0,255,200,.2)' : 'rgba(255,48,96,.2)') + ';background:' + (correct ? 'rgba(0,255,200,.04)' : 'rgba(255,48,96,.04)') + ';">'
+              + '<div style="font-size:.78rem;color:var(--txt);margin-bottom:4px">' + (correct ? '✅' : '❌') + ' ' + q.q + '</div>'
+              + (correct ? '' : '<div style="font-size:.72rem;color:var(--g)">Correct: ' + q.opts[q.ans] + '</div>')
+              + '</div>';
+          });
+          html += '</div>';
+          document.getElementById('mBody').innerHTML = html;
+          document.getElementById('mBtns').innerHTML = '';
+          var rb = document.createElement('button'); rb.className = 'mbtn mbtn-primary'; rb.textContent = 'Retake Test';
+          rb.addEventListener('click', function () { closeModal(); setTimeout(function () { openWeekTest(gi); }, 120); });
+          var cb = document.createElement('button'); cb.className = 'mbtn mbtn-sec'; cb.textContent = 'Close'; cb.addEventListener('click', closeModal);
+          document.getElementById('mBtns').appendChild(rb);
+          document.getElementById('mBtns').appendChild(cb);
+          if (pct >= 70) setTimeout(showLevelUp, 300);
+          return;
+        }
+        var q = qs[current];
+        var html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'
+          + '<span style="font-family:var(--mono);font-size:.6rem;color:var(--muted)">Question ' + (current + 1) + ' / ' + qs.length + '</span>'
+          + '<div style="display:flex;gap:3px">'
+          + qs.map(function (_, i) { return '<div style="width:10px;height:4px;border-radius:2px;background:' + (i < current ? (answers[i] === qs[i].ans ? 'var(--g)' : 'var(--r)') : 'var(--b1)') + '"></div>'; }).join('')
+          + '</div></div>'
+          + '<p style="margin-bottom:14px;font-weight:600;font-size:.9rem;color:var(--txt)">' + q.q + '</p>';
+        q.opts.forEach(function (o, i) { html += '<button class="qopt" id="wqo' + i + '">' + o + '</button>'; });
+        html += '<div id="wqfb" style="margin-top:10px;font-size:.8rem;min-height:18px"></div>';
+        document.getElementById('mTitle').textContent = '🎓 ' + test.title;
+        document.getElementById('mBody').innerHTML = html;
+        document.getElementById('mBtns').innerHTML = '';
+        q.opts.forEach(function (_, i) {
+          document.getElementById('wqo' + i).addEventListener('click', function () {
+            answers[current] = i;
+            for (var j = 0; j < q.opts.length; j++) {
+              var b = document.getElementById('wqo' + j); b.disabled = true;
+              if (j === q.ans) b.classList.add('correct');
+              else if (j === i && i !== q.ans) b.classList.add('wrong');
+            }
+            var fb = document.getElementById('wqfb');
+            if (i === q.ans) { fb.textContent = '✅ Correct!'; fb.style.color = 'var(--g)'; score++; }
+            else { fb.textContent = '❌ Correct answer: ' + q.opts[q.ans]; fb.style.color = 'var(--r)'; }
+            setTimeout(function () { current++; showQ(); }, 900);
+          });
+        });
+      }
+      openModal('🎓 ' + test.title, '', []);
+      showQ();
+    }
+
+    // NOTES
+    document.getElementById('btnNotes').addEventListener('click', openNotes);
+    function openNotes() {
+      openModal('📝 My Study Notes', '<textarea id="notes-area" placeholder="Write your notes here...">' + ST.notes + '</textarea>', [
+        { label: 'Save Notes', cls: 'mbtn-primary', fn: function () { var el = document.getElementById('notes-area'); if (el) { ST.notes = el.value; save(); } closeModal(); showToast('Notes saved! 📝'); } },
+        { label: 'Cancel', fn: closeModal }
+      ]);
+    }
+
+    // CHEAT SHEET
+    document.getElementById('btnCheat').addEventListener('click', openCheatsheet);
+    function openCheatsheet() {
+      openModal('📋 CyberSec Cheat Sheet',
+        '<div style="font-family:var(--mono);font-size:.72rem;line-height:2;color:var(--txt)">'
+        + '<div style="color:var(--g);margin-bottom:4px">▸ NMAP</div>'
+        + 'nmap -sV -sC &lt;target&gt; &nbsp;&nbsp;# version+scripts<br>'
+        + 'nmap -p- &lt;target&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# all 65535 ports<br>'
+        + 'nmap -A -T4 &lt;target&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# aggressive scan<br><br>'
+        + '<div style="color:var(--g);margin-bottom:4px">▸ COMMON PORTS</div>'
+        + '21=FTP  22=SSH  23=Telnet  25=SMTP<br>'
+        + '80=HTTP  443=HTTPS  3306=MySQL<br>'
+        + '445=SMB  3389=RDP  6379=Redis<br><br>'
+        + '<div style="color:var(--g);margin-bottom:4px">▸ LINUX ESSENTIALS</div>'
+        + 'chmod 777 file  |  chown user file<br>'
+        + 'find / -perm -4000 2&gt;/dev/null  # SUID<br>'
+        + 'sudo -l  |  cat /etc/passwd<br><br>'
+        + '<div style="color:var(--g);margin-bottom:4px">▸ METASPLOIT</div>'
+        + 'msfconsole → search &lt;x&gt; → use &lt;n&gt;<br>'
+        + 'set RHOSTS &lt;ip&gt; → set payload → run<br><br>'
+        + '<div style="color:var(--g);margin-bottom:4px">▸ SQLMAP</div>'
+        + "sqlmap -u 'http://target/?id=1' --dbs<br>"
+        + '<div style="color:var(--g);margin-bottom:4px">▸ BURP SUITE</div>'
+        + 'Proxy → Intercept ON → Repeater → Intruder'
+        + '</div>',
+        [{ label: 'Close', fn: closeModal }]
+      );
+    }
+
+    // GLOSSARY
+    document.getElementById('btnGloss').addEventListener('click', openGlossary);
+    function openGlossary() {
+      var html = '';
+      GLOSSARY.forEach(function (g) {
+        html += '<div class="glos-item"><div class="glos-term">' + g[0] + '</div><div class="glos-def">' + g[1] + '</div></div>';
+      });
+      openModal('📖 Cybersecurity Glossary', html, [{ label: 'Close', fn: closeModal }]);
+    }
+
+    // TERMINAL
+    document.getElementById('btnTerminal').addEventListener('click',openTerminal);
+    function openTerminal(){
+      var html='<div class="terminal" id="termOut"><div class="t-line">Initializing CyberShield terminal...<span class="t-cursor"></span></div></div>'
+        +'<div style="display:flex;gap:8px;margin-top:8px">'
+        +'<input id="termIn" type="text" placeholder="Type a command (help, whoami, scan, status, ports, tools)" style="flex:1;font-family:var(--mono);font-size:.75rem;background:var(--s2);border:1px solid var(--b1);border-radius:6px;padding:8px 12px;color:var(--g);outline:none;">'
+        +'<button class="mbtn mbtn-primary" id="termRun" style="flex-shrink:0">RUN</button>'
+        +'</div>';
+      openModal('\u{1F4BB} Hacker Terminal',html,[{label:'Close',fn:closeModal}]);
+
+      // Use fresh references every open — avoids stale closures
+      setTimeout(function(){
+        var out=document.getElementById('termOut');
+        if(!out)return;
+
+        var delay=0;
+        TERMINAL_LINES.forEach(function(line){
+          setTimeout(function(){
+            var d=document.createElement('div');d.className='t-line';d.innerHTML=line.html;
+            out.appendChild(d);out.scrollTop=out.scrollHeight;
+          },delay);
+          delay+=480;
+        });
+
+        var CMDS={
+          help:function(){return'Commands: <span class="t-g">whoami &nbsp;scan &nbsp;status &nbsp;xp &nbsp;clear &nbsp;matrix &nbsp;ports &nbsp;tools &nbsp;streak &nbsp;level</span>';},
+          whoami:function(){return '&gt; <span class="t-y">CyberShield Student</span> | Level: <span class="t-g">'+getLevel()+'</span> | XP: <span class="t-g">'+ST.xp+'</span>';},
+          scan:function(){return '<span class="t-g">SCAN COMPLETE:</span> 8 modules online. Topics: <span class="t-y">'+Object.keys(ST.done).length+'/32</span> done.';},
+          status:function(){
+            var d=Object.keys(ST.done).length,pct=Math.round((d/32)*100);
+            return 'Progress: <span class="t-y">'+d+'/32</span> topics | Completion: <span class="t-g">'+pct+'%</span> | Streak: <span class="t-y">'+ST.streak+'d</span>';
+          },
+          xp:function(){ST.xp+=5;save();updateStats();return '<span class="t-g">+5 XP bonus awarded! New total: '+ST.xp+' XP \u26a1</span>';},
+          clear:function(){if(out)out.innerHTML='';return null;},
+          matrix:function(){return '<span style="color:#0f0;letter-spacing:.1em">Wake up, Neo... The Matrix has you. Follow the white rabbit. 🐰</span>';},
+          ports:function(){return 'Common Ports: <span class="t-g">21</span>=FTP &nbsp;<span class="t-g">22</span>=SSH &nbsp;<span class="t-g">23</span>=Telnet &nbsp;<span class="t-g">25</span>=SMTP &nbsp;<span class="t-g">80</span>=HTTP &nbsp;<span class="t-g">443</span>=HTTPS &nbsp;<span class="t-g">445</span>=SMB &nbsp;<span class="t-g">3389</span>=RDP';},
+          tools:function(){return 'Key Tools: <span class="t-y">nmap</span> | <span class="t-y">wireshark</span> | <span class="t-y">burpsuite</span> | <span class="t-y">metasploit</span> | <span class="t-y">ffuf</span> | <span class="t-y">hashcat</span> | <span class="t-y">sqlmap</span>';},
+          streak:function(){return 'Current streak: <span class="t-y">'+ST.streak+' day(s)</span> 🔥 Keep it up!';},
+          level:function(){var lv=getLevel(),xpInLv=ST.xp%50;return 'Level: <span class="t-g">'+lv+'</span> | Progress to next: <span class="t-y">'+xpInLv+'/50 XP</span>';}
+        };
+
+        function runCmd(raw){
+          var out2=document.getElementById('termOut');
+          if(!out2)return;
+          var cmd=raw.trim().toLowerCase();
+          var div=document.createElement('div');div.className='t-line';
+          div.innerHTML='<span class="t-g">root@cybershield</span>:~# '+raw;
+          out2.appendChild(div);
+          var res=CMDS[cmd]?CMDS[cmd]():('bash: <span class="t-r">'+cmd+'</span>: command not found &nbsp;[try: <span class="t-g">help</span>]');
+          if(res!==null){
+            var r2=document.createElement('div');r2.className='t-line';r2.innerHTML=res;out2.appendChild(r2);
+          }
+          out2.scrollTop=out2.scrollHeight;
+        }
+
+        // Attach listeners to fresh DOM elements — no duplicates possible
+        var runBtn=document.getElementById('termRun');
+        var termInp=document.getElementById('termIn');
+        if(runBtn){
+          runBtn.addEventListener('click',function(){
+            var inp=document.getElementById('termIn');if(!inp||!inp.value.trim())return;
+            runCmd(inp.value);inp.value='';inp.focus();
+          });
+        }
+        if(termInp){
+          termInp.addEventListener('keydown',function(e){
+            if(e.key==='Enter'&&this.value.trim()){runCmd(this.value);this.value='';}
+          });
+          termInp.focus();
+        }
+      },50);
+    }
+
+    // TIMER
+    document.getElementById('btnTimer').addEventListener('click', openTimer);
+    function openTimer() {
+      if (studyInterval) { clearInterval(studyInterval); studyInterval = null; }
+      studySeconds = 0; timerRunning = false;
+      openModal('⏱️ Study Timer',
+        '<div id="timer-display">00:00</div><div id="timer-status">STOPPED — press Start</div>',
+        [{ label: '▶ Start', cls: 'mbtn-primary', fn: timerStart }, { label: '⏸ Pause', fn: timerPause }, { label: '⏹ Stop', fn: timerStop }]
+      );
+    }
+    function timerStart() { if (timerRunning) return; timerRunning = true; var s = document.getElementById('timer-status'); if (s) s.textContent = '● RUNNING'; studyInterval = setInterval(function () { studySeconds++; var d = document.getElementById('timer-display'); if (d) d.textContent = fmt(studySeconds); if (studySeconds % 300 === 0) { ST.xp += 2; save(); updateStats(); showToast('🔥 +2 XP for studying!'); } }, 1000); }
+    function timerPause() { if (studyInterval) { clearInterval(studyInterval); studyInterval = null; } timerRunning = false; var s = document.getElementById('timer-status'); if (s) s.textContent = '⏸ PAUSED'; }
+    function timerStop() { timerPause(); var msg = studySeconds > 0 ? 'Session: ' + fmt(studySeconds) + ' — Keep grinding! 💪' : 'Timer stopped.'; studySeconds = 0; closeModal(); showToast(msg); }
+
+    // ═══════════════════════════════════════════════════
+    // AI MENTOR — LOCAL KNOWLEDGE BASE (no API needed)
+    // ═══════════════════════════════════════════════════
+    document.getElementById('btnAI').addEventListener('click', openAIMentor);
+
+    var aiHistory = [];
+
+    // ── Comprehensive local cybersecurity knowledge base ──
+    var AI_KB = [
+      {keys:['sql injection','sqli','sql inject'],
+       ans:'🔍 SQL Injection (SQLi) lets attackers manipulate database queries by injecting malicious SQL code into input fields.\n\nExample payload: \' OR \'1\'=\'1\' — this tricks a login form into returning all rows.\n\n🛡️ Fix: Always use prepared statements / parameterized queries. Never concatenate user input directly into SQL.\n\n⚙️ Tools: sqlmap automates SQLi detection. Try labs on PortSwigger to practice!'},
+      {keys:['xss','cross site scripting','cross-site scripting','script injection'],
+       ans:'⚠️ XSS (Cross-Site Scripting) lets attackers inject malicious JavaScript into web pages viewed by other users.\n\n3 Types:\n• Stored XSS — payload saved on server\n• Reflected XSS — payload in URL/response\n• DOM-based XSS — payload runs via JS in browser\n\nExample: <scr"+"ipt>alert(document.cookie)</scr"+"ipt>\n\n🛡️ Fix: Output encoding, Content-Security-Policy header, and input validation. Practice on PortSwigger labs!'},
+      {keys:['tls','https','ssl','handshake','encrypt','encryption','certificate'],
+       ans:'🔐 TLS (Transport Layer Security) encrypts data in transit between client and server.\n\nTLS Handshake steps:\n1. Client Hello (supported ciphers)\n2. Server Hello + Certificate\n3. Key exchange (e.g. ECDHE)\n4. Session keys derived\n5. Encrypted communication begins!\n\nHTTPS = HTTP + TLS on port 443.\n\n🔑 Key concepts: CA (Certificate Authority) signs certs to prove identity. Perfect Forward Secrecy means old sessions stay safe even if keys are later compromised.'},
+      {keys:['buffer overflow','bof','stack overflow','memory exploit','eip','nop sled'],
+       ans:'💥 A Buffer Overflow occurs when a program writes more data into a buffer than it can hold, overwriting adjacent memory.\n\nAttackers exploit this to:\n• Overwrite the return address (EIP/RIP)\n• Redirect execution to shellcode\n• Gain arbitrary code execution\n\nKey concepts:\n• NOP sled — series of 0x90 NOPs before shellcode\n• EIP — Extended Instruction Pointer (return address)\n\n🛡️ Mitigations: ASLR, DEP/NX, Stack Canaries\n\nPractice: TryHackMe BOF rooms are excellent for beginners!'},
+      {keys:['osint','open source intelligence','footprint','recon','reconnaissance'],
+       ans:'🕵️ OSINT (Open Source Intelligence) means gathering information about a target from publicly available sources — without directly touching their systems.\n\nTechniques:\n• Google Dorks — site:, filetype:, inurl: operators\n• WHOIS lookups for domain registration info\n• Shodan — find internet-connected devices\n• theHarvester — collect emails, IPs, subdomains\n• Maltego — visualise relationships between entities\n\n📍 Framework: osintframework.com organises hundreds of OSINT tools by category. Always stay ethical and legal!'},
+      {keys:['osi','osi model','seven layers','7 layers','layer 1','layer 2','layer 3','layer 4','layer 7'],
+       ans:'🗂️ The OSI Model has 7 layers (remember: Please Do Not Throw Sausage Pizza Away):\n\n7. Application — HTTP, FTP, DNS (user-facing)\n6. Presentation — Encryption, encoding (TLS)\n5. Session — Connection management\n4. Transport — TCP/UDP, ports, reliability\n3. Network — IP addressing, routing\n2. Data Link — MAC addresses, switches\n1. Physical — Cables, hardware, bits\n\n💡 Hackers mostly operate at Layers 3–7. Wireshark captures at Layer 2, IP works at Layer 3, and web attacks hit Layer 7.'},
+      {keys:['siem','splunk','log analysis','security operations','soc','blue team'],
+       ans:'📊 SIEM (Security Information and Event Management) collects and analyses security logs from across an organisation in real-time.\n\nKey features:\n• Log aggregation from all systems\n• Correlation rules to detect attacks\n• Real-time alerting\n• Forensic investigation support\n\nPopular SIEMs: Splunk, Microsoft Sentinel, IBM QRadar, Elastic SIEM\n\n🛡️ Blue Team analysts use SIEMs to hunt threats, investigate incidents, and build detection rules. Start with Splunk Fundamentals 1 (free course!) to learn the basics.'},
+      {keys:['metasploit','msfconsole','meterpreter','msf','exploit framework','payload'],
+       ans:'🚀 Metasploit is the world\'s most popular penetration testing framework.\n\nBasic workflow:\n1. msfconsole — start the console\n2. search <term> — find a module\n3. use <module> — select it\n4. set RHOSTS <ip> — set target\n5. set payload <type> — choose payload\n6. run or exploit — launch it!\n\nMeterpreter is an advanced in-memory payload shell with commands like:\n• sysinfo, getuid, hashdump, upload, download, getsystem\n\n⚠️ Always use in authorised lab environments only!'},
+      {keys:['nmap','port scan','network scan','service detection','os detection'],
+       ans:'🗺️ Nmap is the go-to network scanner for discovering hosts, open ports, and services.\n\nKey commands:\n• nmap -sV <target> — detect service versions\n• nmap -sC <target> — run default scripts\n• nmap -A -T4 <target> — aggressive scan\n• nmap -p- <target> — scan all 65535 ports\n• nmap -sU <target> — UDP scan\n\nOutput tells you: open/closed/filtered ports, service names, OS hints.\n\n💡 Combine flags: nmap -sV -sC -A -T4 <target> for a thorough scan!'},
+      {keys:['tcp','udp','networking','ip address','subnet','dhcp','arp','icmp','dns','port'],
+       ans:'🌐 Core Networking Concepts:\n\n• TCP — reliable, connection-oriented (3-way handshake: SYN→SYN-ACK→ACK)\n• UDP — fast, no guarantees (used for DNS, streaming)\n• IP — logical addressing and routing\n• DNS — translates domain names → IP addresses (port 53)\n• DHCP — auto-assigns IP addresses\n• ARP — maps IP → MAC address on local network\n• ICMP — diagnostics (ping uses ICMP)\n\nCommon ports: FTP=21, SSH=22, HTTP=80, HTTPS=443, SMB=445, RDP=3389\n\n💡 Understanding TCP/IP is fundamental to all cybersecurity work!'},
+      {keys:['cryptography','hash','md5','sha','rsa','aes','asymmetric','symmetric','public key','private key'],
+       ans:'🔑 Cryptography protects data confidentiality and integrity.\n\nSymmetric (same key):\n• AES-256 — gold standard block cipher\n• Fast, great for bulk data encryption\n\nAsymmetric (key pair):\n• RSA, ECC — public key encrypts, private key decrypts\n• Used in TLS, SSH, digital signatures\n\nHashing (one-way):\n• MD5 (broken!), SHA-1 (weak), SHA-256 (good), SHA-3\n• Salting prevents rainbow table attacks\n\n🛡️ Digital signatures prove authenticity + integrity. HTTPS uses both: asymmetric for key exchange, symmetric for bulk data.'},
+      {keys:['linux','bash','command line','cli','chmod','sudo','permission','shell','terminal','file system'],
+       ans:'🐧 Essential Linux for Hackers:\n\nNavigation:\n• ls -la — list all files with permissions\n• cd, pwd, find, cat, less, grep\n\nPermissions:\n• chmod 777 file — rwxrwxrwx (full access)\n• chmod +x file — make executable\n• chown user:group file — change owner\n• find / -perm -4000 2>/dev/null — find SUID files\n\nRecon commands:\n• sudo -l — what can I run as root?\n• cat /etc/passwd, /etc/shadow\n• ps aux — running processes\n• netstat -tulpn — listening ports\n\n💡 Practice on TryHackMe Linux rooms or OverTheWire: Bandit!'},
+      {keys:['csrf','cross site request forgery','cross-site request forgery'],
+       ans:'🔄 CSRF (Cross-Site Request Forgery) tricks a logged-in user\'s browser into making unwanted requests to a trusted site.\n\nExample: Attacker sends you an email with an image tag:\n<img src="https://bank.com/transfer?to=attacker&amount=1000">\nYour browser auto-sends your session cookie — bank processes the transfer!\n\n🛡️ Fixes:\n• CSRF tokens (unique secret per form)\n• SameSite cookie attribute\n• Verify Origin/Referer headers\n\nPractice: PortSwigger has great CSRF labs!'},
+      {keys:['idor','insecure direct object','access control','broken access'],
+       ans:'🎯 IDOR (Insecure Direct Object Reference) lets attackers access resources they shouldn\'t by changing a reference ID in a request.\n\nExample:\n• You access: /api/invoice?id=1001 (your invoice)\n• Change to:   /api/invoice?id=1000 → see another user\'s invoice!\n\n🛡️ Fix: Always verify server-side that the authenticated user actually owns the resource they\'re requesting. Never trust client-provided IDs alone.\n\nThis is one of the most common web vulnerabilities — practice on PortSwigger and TryHackMe!'},
+      {keys:['ethical hack','pentest','penetration test','red team','bug bounty','ceh','oscp'],
+       ans:'💻 Ethical Hacking (Penetration Testing) means legally attacking systems to find vulnerabilities before criminals do.\n\nPentest Phases:\n1. Reconnaissance — gather info (passive + active)\n2. Scanning — nmap, Shodan, Burp\n3. Exploitation — attack identified vulnerabilities\n4. Post-Exploitation — pivot, persist, exfiltrate (in lab!)\n5. Reporting — document findings with CVSS scores\n\nCertifications:\n• CompTIA Security+ (entry)\n• CEH (intermediate)\n• OSCP (hands-on, respected!)\n\n💡 Start with TryHackMe, then HackTheBox, then Bug Bounty on HackerOne!'},
+      {keys:['shodan'],
+       ans:'📡 Shodan is the "search engine for hackers" — it indexes internet-connected devices and their open ports, banners, services, and vulnerabilities.\n\nUseful searches:\n• title:"webcam" — find exposed webcams\n• port:22 country:IN — SSH servers in India\n• product:"Apache httpd" — Apache web servers\n• vuln:CVE-2021-44228 — Log4Shell vulnerable hosts\n\n💡 Use Shodan for OSINT and asset discovery. Always have written permission before actively scanning anything you find!'},
+      {keys:['burp','burp suite','proxy','web proxy','intercept','intruder','repeater'],
+       ans:'🔧 Burp Suite is the #1 tool for web application security testing.\n\nKey modules:\n• Proxy — intercept & modify HTTP/S requests in real-time\n• Repeater — manually replay and tweak requests\n• Intruder — automated attacks (fuzzing, brute-force)\n• Scanner — find vulnerabilities automatically (Pro only)\n• Decoder — encode/decode Base64, URL, HTML\n\nSetup: Install Burp CA cert in browser → set browser proxy to 127.0.0.1:8080\n\n💡 Pair Burp with PortSwigger Web Academy labs — they\'re specifically designed for Burp Suite practice!'},
+      {keys:['wireshark','packet capture','packet analysis','pcap','network traffic'],
+       ans:'🦈 Wireshark captures and analyses network packets in real-time.\n\nKey filters:\n• http — show HTTP traffic\n• tcp.port == 443 — HTTPS traffic\n• ip.addr == 192.168.1.1 — traffic to/from IP\n• dns — all DNS queries\n• tcp.flags.syn == 1 — TCP connection attempts\n\nUseful for:\n• Analysing protocols\n• Capturing credentials on unencrypted protocols\n• Following TCP streams\n• Detecting anomalies in network traffic\n\n💡 Run Wireshark in promiscuous mode to capture all traffic on the segment, not just yours!'},
+      {keys:['incident response','ir','forensics','containment','eradication','recovery'],
+       ans:'🚨 Incident Response (IR) is the process of handling security breaches systematically.\n\nSANS IR Lifecycle (6 steps):\n1. Preparation — plans, tools, training\n2. Identification — detect & confirm incident\n3. Containment — limit damage spread\n4. Eradication — remove malware/attacker access\n5. Recovery — restore systems safely\n6. Lessons Learned — improve for next time\n\n📋 Key docs: Incident Response Plan, Chain of Custody for evidence\n\n💡 Practice with SIEM labs on TryHackMe Solar and Splunk rooms!'},
+      {keys:['mitre','att&ck','attack','ttps','tactics','techniques','kill chain'],
+       ans:'🗺️ MITRE ATT&CK is a globally-accessible knowledge base of adversary tactics and techniques based on real-world observations.\n\nOrganised by Tactics (the WHY):\nRecon → Resource Dev → Initial Access → Execution → Persistence → Privilege Escalation → Defense Evasion → Credential Access → Discovery → Lateral Movement → Collection → Exfiltration → C2 → Impact\n\n💡 Each tactic has specific Techniques (the HOW). Use ATT&CK to map detected behaviour to known threat actor groups, improve detection rules, and conduct threat hunting!'},
+      {keys:['hashcat','password crack','rainbow table','salt','wordlist','brute force password','john the ripper'],
+       ans:'🔐 Password Cracking attacks hashed passwords to recover plaintext.\n\nTools:\n• Hashcat — GPU-accelerated, fastest cracker\n• John the Ripper — flexible, CPU-based\n\nAttack modes:\n• Dictionary — try words from a wordlist (rockyou.txt!)\n• Brute-force — try all combinations\n• Rule-based — mutate dictionary words\n• Rainbow tables — precomputed hash lookups (defeated by salting!)\n\nExample: hashcat -m 0 hash.txt rockyou.txt (MD5)\n\n🛡️ Defence: Use bcrypt/Argon2 with long random salts. Never MD5 or SHA1 passwords!'},
+      {keys:['roadmap','where start','how to start','study','learn','beginner','tips','advice'],
+       ans:'🚀 CyberSecurity Learning Roadmap:\n\nMonth 1 — Foundations:\n✅ Week 1: Networking (TCP/IP, OSI, DNS, Wireshark)\n✅ Week 2: Linux & CLI (bash, permissions, netcat, nmap)\n✅ Week 3: Cryptography (AES, RSA, TLS, hashing)\n✅ Week 4: OWASP Top 10 (SQLi, XSS, CSRF, IDOR)\n\nMonth 2 — Advanced:\n🎯 Week 5: OSINT & Recon\n🎯 Week 6: Exploitation (Metasploit, Buffer Overflow)\n🎯 Week 7: Web App Pentesting (Burp, FFUF)\n🎯 Week 8: Defensive Security (SIEM, IR, Blue Team)\n\n💡 Complete the weekly topics above to unlock Final Tests and earn XP!'},
+      {keys:[''],
+       ans:null}
+    ];
+
+    function aiGetResponse(question) {
+      var q = question.toLowerCase();
+      var best = null;
+      var bestScore = 0;
+      AI_KB.forEach(function(entry) {
+        if (!entry.ans) return;
+        var score = 0;
+        entry.keys.forEach(function(k) {
+          if (k && q.indexOf(k) !== -1) score += k.length;
+        });
+        if (score > bestScore) { bestScore = score; best = entry; }
+      });
+      if (best && bestScore > 0) return best.ans;
+
+      var words = q.split(/\s+/).filter(function(w){return w.length > 3;});
+      var partialBest = null;
+      var partialScore = 0;
+      AI_KB.forEach(function(entry) {
+        if (!entry.ans) return;
+        var sc = 0;
+        entry.keys.forEach(function(k) {
+          words.forEach(function(w) {
+            if (k && k.indexOf(w) !== -1) sc++;
+          });
+        });
+        if (sc > partialScore) { partialScore = sc; partialBest = entry; }
+      });
+      if (partialBest && partialScore > 0) return partialBest.ans;
+
+      return '🤖 Great question about "' + question + '"!\n\nI don\'t have a specific entry for that yet, but here\'s how to find out:\n\n• 🔎 Search on HackTricks: book.hacktricks.xyz\n• 📚 Check OWASP: owasp.org\n• 🎓 Try a TryHackMe room on the topic\n• 📖 Look it up on the CVE database (cve.mitre.org)\n\nTry asking about: SQL injection, XSS, TLS, buffer overflow, OSINT, Nmap, Metasploit, Burp Suite, Linux, cryptography, SIEM, or the OSI model!';
+    }
+
+    function openAIMentor() {
+      var suggestions = [
+        'What is SQL injection?',
+        'Explain XSS attacks',
+        'How does TLS work?',
+        'What is a buffer overflow?',
+        'What is OSINT?',
+        'Explain the OSI model',
+        'What is a SIEM?',
+        'How does Metasploit work?'
+      ];
+
+      var sugHtml = suggestions.map(function(s) {
+        return '<button class="ai-sug" data-q="' + s + '">' + s + '</button>';
+      }).join('');
+
+      var html = '<div class="ai-chat">'
+        + '<div class="ai-suggestions" id="aiSuggestions">' + sugHtml + '</div>'
+        + '<div class="ai-messages" id="aiMessages">'
+        + '<div class="ai-msg bot">👋 Hi! I am your AI Cybersecurity Mentor — running fully offline! Ask me about SQL injection, XSS, TLS, Linux, Metasploit, OSINT, and more!</div>'
+        + '</div>'
+        + '<div class="ai-input-row">'
+        + '<input id="aiInput" type="text" placeholder="Ask a cybersecurity question...">'
+        + '<button id="aiSend">SEND &#9654;</button>'
+        + '</div></div>';
+
+      openModal('🤖 AI Cybersecurity Mentor', html, [{label:'Close', fn:closeModal}]);
+
+      if (aiHistory.length > 0) {
+        var msgs = document.getElementById('aiMessages');
+        msgs.innerHTML = '';
+        aiHistory.forEach(function(m) {
+          var d = document.createElement('div');
+          d.className = 'ai-msg ' + m.role;
+          d.textContent = m.text;
+          msgs.appendChild(d);
+        });
+        msgs.scrollTop = msgs.scrollHeight;
+      }
+
+      setTimeout(function() {
+        document.querySelectorAll('#aiSuggestions .ai-sug').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var inp = document.getElementById('aiInput');
+            if (inp) { inp.value = this.getAttribute('data-q') || this.textContent; aiSendMessage(); }
+          });
+        });
+        var sendBtn = document.getElementById('aiSend');
+        if (sendBtn) sendBtn.addEventListener('click', aiSendMessage);
+        var inp = document.getElementById('aiInput');
+        if (inp) {
+          inp.focus();
+          inp.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); aiSendMessage(); }
+          });
+        }
+      }, 80);
+    }
+
+    function aiSendMessage() {
+      var inp = document.getElementById('aiInput');
+      if (!inp) return;
+      var text = inp.value.trim();
+      if (!text) return;
+      inp.value = '';
+
+      var msgs = document.getElementById('aiMessages');
+      var sendBtn = document.getElementById('aiSend');
+      if (!msgs) return;
+
+      // Hide suggestions
+      var sugs = document.getElementById('aiSuggestions');
+      if (sugs) sugs.style.display = 'none';
+
+      // User message
+      var uDiv = document.createElement('div');
+      uDiv.className = 'ai-msg user';
+      uDiv.textContent = text;
+      msgs.appendChild(uDiv);
+      aiHistory.push({role:'user', text:text});
+      msgs.scrollTop = msgs.scrollHeight;
+
+      // Typing indicator
+      var tDiv = document.createElement('div');
+      tDiv.className = 'ai-msg typing';
+      tDiv.id = 'aiTyping';
+      tDiv.textContent = '🤖 Thinking...';
+      msgs.appendChild(tDiv);
+      msgs.scrollTop = msgs.scrollHeight;
+      if (sendBtn) sendBtn.disabled = true;
+
+      // Simulate a realistic thinking delay, then respond from local KB
+      var thinkMs = 600 + Math.random() * 700;
+      setTimeout(function() {
+        var typing = document.getElementById('aiTyping');
+        if (typing) typing.remove();
+
+        var reply = aiGetResponse(text);
+
+        var bDiv = document.createElement('div');
+        bDiv.className = 'ai-msg bot';
+        bDiv.style.whiteSpace = 'pre-wrap';
+        bDiv.textContent = reply;
+        var msgsEl = document.getElementById('aiMessages');
+        if (msgsEl) { msgsEl.appendChild(bDiv); msgsEl.scrollTop = msgsEl.scrollHeight; }
+        aiHistory.push({role:'bot', text:reply});
+
+        var sb = document.getElementById('aiSend');
+        if (sb) sb.disabled = false;
+        var inpEl = document.getElementById('aiInput');
+        if (inpEl) inpEl.focus();
+      }, thinkMs);
+    }
+
+    // RESET
+    document.getElementById('btnReset').addEventListener('click', function () {
+      openModal('🔄 Reset Progress', '<p>This clears ALL topics, XP and streak. Notes will be kept.</p>', [
+        { label: 'Yes, Reset', cls: 'mbtn-danger', fn: function () { ST = { done: {}, xp: 0, streak: 0, notes: ST.notes || '', achievements: [] }; save(); closeModal(); updateStats(); renderWeeks(); renderAchievements(); showToast('Progress reset.'); } },
+        { label: 'Cancel', fn: closeModal }
+      ]);
+    });
+
+    // ═══════════════════════════════════════════════════
+    // STREAK & INIT
+    // ═══════════════════════════════════════════════════
+    function checkStreak() {
+      var today = new Date().toDateString();
+      if (ST.lastDate !== today) {
+        var yest = new Date(Date.now() - 86400000).toDateString();
+        ST.streak = ST.lastDate === yest ? ST.streak + 1 : 1;
+        ST.lastDate = today; save();
+      }
+    }
+
+    checkStreak();
+    renderWeeks();
+    renderHub();
+    renderResources();
+    renderAchievements();
+    updateStats();
+    updateSkillTree();
+    setTimeout(function () { updateStats(); }, 300);
+  </script>
+</body>
+
+</html>
