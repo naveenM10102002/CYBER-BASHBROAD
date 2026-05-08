@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/cybersec_dashboard_fixed.html" },
+    { "source": "/(.*)", "destination": "/cybersec_dashboard_fixed.html" }
+  ]
+}
